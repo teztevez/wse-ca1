@@ -1,0 +1,274 @@
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Multi-page template</title>
+
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+
+</head>
+
+<body>
+
+<!-- Start of first page: #one -->
+<div data-role="page" id="one">
+
+	<div data-role="header">
+		<h1>Pippa's Pizza</h1>
+	</div><!-- /header -->
+
+	<div role="main" class="ui-content">
+		<h2>Welcome!</h2>
+
+		<br>
+        Welcome to the application, login or register.
+
+		<h3>Show internal pages:</h3>
+		<p><a href="#register" class="ui-btn ui-shadow ui-corner-all">Register</a></p>
+		<p><a href="#login" class="ui-btn ui-shadow ui-corner-all">Login</a></p>
+
+	</div><!-- /content -->
+
+	<div data-role="footer" data-theme="a">
+		<h4>Page Footer</h4>
+	</div><!-- /footer -->
+</div><!-- /page one -->
+
+<!-- Start of second page: #two -->
+<div data-role="page" id="success" data-theme="a">
+
+	<div data-role="header">
+		<h1>Pippa's Pizza</h1>
+	</div><!-- /header -->
+
+	<div role="main" class="ui-content">
+		<h2>Congratulations - you have successfully registered!</h2>
+
+		<br>
+		<p><a href="#login" class="ui-btn ui-shadow ui-corner-all">Login</a></p>
+		<p><a href="#one" class="ui-btn ui-shadow ui-corner-all">Back to Home</a></p>
+
+	</div><!-- /content -->
+
+	<div data-role="footer" data-theme="a">
+		<h4>Page Footer</h4>
+	</div><!-- /footer -->
+</div>
+<!-- Start of third page: #popup -->
+<div data-role="page" id="popup">
+
+	<div data-role="header" data-theme="b">
+		<h1>Dialog</h1>
+	</div><!-- /header -->
+
+	<div role="main" class="ui-content">
+		<h2>Popup</h2>
+		<p>I have an id of "popup" on my page container and only look like a dialog because the link to me had a <code>data-rel="dialog"</code> attribute which gives me this inset look and a <code>data-transition="pop"</code> attribute to change the transition to pop. Without this, I'd be styled as a normal page.</p>
+		<p><a href="#one" data-rel="back" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-icon-back ui-btn-icon-left">Back to page "one"</a></p>
+	</div><!-- /content -->
+
+	<div data-role="footer">
+		<h4>Page Footer</h4>
+	</div><!-- /footer -->
+</div><!-- /page popup -->
+
+
+
+<div data-role="page" id="login" data-theme="a">
+<div data-role="header">
+		<h1>Login page</h1>
+	</div><!-- /header -->
+
+     <div role="main" class="ui-content">
+		<h2>Login</h2>
+	   Username <input type="text" name="login_username" id="login_username" value="">
+       Password <input type="text" name="login_pass" id="login_pass" value="">
+        <button class="ui-btn" id="loginButton">Submit</button>
+        
+        
+        
+	</div><!-- /content -->
+
+
+</div>
+
+
+<div data-role="page" id="driver" data-theme="a">
+
+       <div data-role="header">
+		<h1>Driver</h1>
+      </div><!-- /header -->
+
+      <div role="main" class="ui-content">
+	
+
+
+	</div><!-- /content -->
+</div>
+
+<div data-role="page" id="register" data-theme="a">
+
+       <div data-role="header">
+		<h1>Register</h1>
+      </div><!-- /header -->
+
+      <div role="main" class="ui-content">
+		<h2>Register</h2>
+        
+       Username <input type="text" name="username" id="username" value="">
+       Password <input type="password" name="pass" id="pass" value="">
+        <!--AccType <input type="text" name="acctype" id="acctype" value=""> -->
+	    <form>
+        <fieldset data-role="controlgroup" data-type="horizontal">
+        <legend>Account Type:</legend>
+        <input type="radio" name="acctype" id="acctype1" value="customer" checked="checked">
+        <label for="acctype1">Customer</label>
+        <input type="radio" name="acctype" id="acctype2" value="manager">
+        <label for="acctype2">Manager</label>
+        <input type="radio" name="acctype" id="acctype3" value="driver">
+        <label for="acctype3">Driver</label>
+   		</fieldset>
+		</form>
+       <button class="ui-btn" id="registerButton">Submit</button>
+
+
+	</div><!-- /content -->
+</div>
+
+<div data-role="page" id="customer" data-theme="a">
+
+       <div data-role="header">
+		<h1>Customer</h1>
+      </div><!-- /header -->
+
+      <div role="main" class="ui-content">
+	<h1>You're logged in</p>
+  
+ 
+
+
+	</div><!-- /content -->
+</div>
+
+<div data-role="page" id="manager" data-theme="a">
+
+       <div data-role="header">
+		<h1>Manager</h1>
+      </div><!-- /header -->
+
+      <div role="main" class="ui-content">
+		<p>test</p>
+  
+ 
+
+
+	</div><!-- /content -->
+</div>
+</body>
+
+<script>
+
+
+$( "#loginButton" ).click(function() {
+  
+      var un = $( "#login_username" ).val();
+      console.log(un);
+      
+      var pw = $( "#login_pass" ).val();
+      console.log(pw);
+      
+
+      
+      
+      $.post( "/backend", { type: "login", username:un, password:pw})
+     .done(function( data ) {
+        //alert( "Data Loaded: " + data );
+        
+        
+        if(data == 'customer'){
+            window.location="/index#customer";
+        }
+        else if(data == 'driver'){
+            window.location="/index#driver";
+        }   
+        else if(data == 'manager'){
+            window.location="/index#manager";
+        }   		
+        
+       });
+  
+  
+  
+  //alert( "login button pressed!" );
+  
+  
+});
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+<script>
+$( "#registerButton" ).click(function() { //when register button is pressed
+  
+      var un = $( "#username" ).val(); //grab value from username field and assign it to variable un
+      console.log(un);
+      
+      var pw = $( "#pass" ).val();
+      console.log(pw);
+      
+      var at = $( "input[name=acctype]:checked" ).val(); //grabs value of checked radio button
+      console.log(at);
+      
+      
+      
+      $.post( "/backend", { type: "register", username:un, password:pw, acctype:at})
+     .done(function( data ) {
+        alert( "Data Loaded: " + data );
+		
+       });
+  
+	 window.location="/index#success";
+  
+
+  
+  
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>
