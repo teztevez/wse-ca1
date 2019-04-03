@@ -41,7 +41,7 @@
 	</div><!-- /footer -->
 </div><!-- /page one -->
 
-<!-- Start of page: #popup -->
+<!-- Start of #popup -->
 <div data-role="page" id="success">
 
 	<div data-role="header" data-theme="b">
@@ -51,7 +51,7 @@
 	<div role="main" class="ui-content">
 		<h2>Congratulations - you have successfully registered!</h2>
 		<p>Please log in to enjoy our tasty delights!</p>
-		<p><a href="#one" data-rel="login" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-icon-back ui-btn-icon-left">Login</a></p>
+		<p><a href="#login" data-rel="login" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-icon-back ui-btn-icon-left">Login</a></p>
 	</div><!-- /content -->
 
 	<div data-role="footer">
@@ -62,7 +62,7 @@
 
 
 <div data-role="page" id="login" data-theme="a">
-<div data-role="header">
+    <div data-role="header">
 		<h1>Login page</h1>
 	</div><!-- /header -->
 
@@ -70,10 +70,7 @@
 		<h2>Login</h2>
 	   Username <input type="text" name="login_username" id="login_username" value="">
        Password <input type="text" name="login_pass" id="login_pass" value="">
-        <button class="ui-btn" id="loginButton">Submit</button>
-        
-        
-        
+        <button class="ui-btn" id="loginButton">Submit</button>        
 	</div><!-- /content -->
 
 
@@ -130,6 +127,104 @@
 
       <div role="main" class="ui-content">
 	<h1>You're logged in</p>
+	
+<script>
+// template for a product
+
+class product {
+  constructor(name, price, qty) {
+    this.name = name
+    this.price = price;
+    this.qty = qty;
+  }
+}
+
+
+
+
+
+// define our products
+//Pizza
+hawaiian = new product("Hawaiian", 5, 0);
+newyork = new product("New Yorker", 5, 0);
+house = new product("House Special", 5, 0);
+
+//sides
+wedges = new product("Potato Wedges", 5, 0);
+gbread = new product("Garlic Bread", 5,0);
+
+//drinks
+cola = new product("Coca Cola 330ml", 1, 0);
+fanta = new product("Fanta 330ml", 1, 0);
+sprite = new product("Sprite 330ml", 1, 0);
+
+
+
+
+</script>
+
+
+ Add some cookies.. <button id="addCookies">Add me</button> 
+                    <button id="removeCookies">No cookies</button>
+                    <input type="text" id="cookiesQty"/>
+                    
+<button id="viewCart">View Cart</button>
+
+<div id="myCart"></div>                 
+<script>
+
+$( "#addCookies" ).click(function() {
+       if(cookies.qty < 10) { // add a little validation
+          cookies.qty = cookies.qty + 1;
+          updateCart();  
+       }
+});
+
+
+$( "#removeCookies" ).click(function() {
+   
+           cookies.qty = cookies.qty - 1;
+           updateCart();  
+           
+           
+});
+
+// function to update the cart.
+function updateCart(){
+       var content = '';
+      
+      if (cookies.qty >= 1) { // check to see if we should add it or not
+          content = content + "Cookies " + cookies.qty + " price" + cookies.qty * cookies.price;
+          
+           // select the cookie Qty box and add the new number of cookies selected.
+           $( "#cookiesQty" ).val(cookies.qty);
+      }
+      // display the content variable in the myCart div.
+       $( "#myCart" ).html(content);
+    
+      if(cookies.qty == 0){    
+          $( "#myCart" ).hide();
+      
+      
+          $( "#cookiesQty" ).hide();
+      } else {
+       $( "#myCart" ).show();
+      
+      
+          $( "#cookiesQty" ).show();
+      }
+}
+
+
+$( "#viewCart" ).click(function() {
+      
+       updateCart();  
+    
+  });
+
+
+
+</script>
   
  
 
