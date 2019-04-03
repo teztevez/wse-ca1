@@ -163,22 +163,37 @@ sprite = new product("Sprite 330ml", 1, 0);
 
 </script>
  
-
+<!-- Menu -->
 <ul data-role="listview" data-inset="true" data-divider-theme="a">
+    <li data-role="list-divider">Pizza</li>
+    <li><h4>Hawaiian</h4><button id="addH">Add</button><button id="removeH">Remove</button><input type="text" id="hQty"/></li>
+    <li><h4>New York</h4><button id="addNy">Add</button><button id="removeNy">Remove</button><input type="text" id="nyQty"/></li>
+	<li><h4>House Special</h4><button id="addHouse">Add</button><button id="removeHouse">Remove</button><input type="text" id="houseQty"/></li>
     <li data-role="list-divider">Sides</li>
-    <li><h3>Potato Wedges <button id="addWedges">Add</button> <button id="removeWedges">Remove</button><input type="text" id="wedgesQty"/> </li>
-    <li><a href="#">Outbox</a></li>
-    <li data-role="list-divider">Contacts</li>
-    <li><a href="#">Friends</a></li>
-    <li><a href="#">Work</a></li>
+    <li><h4>Potato Wedges</h4><button id="addWedges">Add</button><button id="removeWedges">Remove</button><input type="text" id="wedgesQty"/></li>
+    <li><h4>Garlic Bread</h4><button id="addGarlic">Add</button><button id="removeGarlic">Remove</button><input type="text" id="garlicQty"/></li>
+    <li data-role="list-divider">Drinks</li>
+    <li><h4>Coca Cola 330ml</h4><button id="addCoke">Add</button><button id="removeCoke">Remove</button><input type="text" id="cokeQty"/></li>
+	<li><h4>Fanta 330ml</h4><button id="addFanta">Add</button><button id="removeFanta">Remove</button><input type="text" id="fantaQty"/></li>
+	<li><h4>Sprite 330ml</h4><button id="addSprite">Add</button><button id="removeSprite">Remove</button><input type="text" id="spriteQty"/></li>    
 </ul>
 
-<div id="myCart"></div>                 
+<a href="#cart" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-mini">View Cart</a>
+
+
+
+	<!-- rightpanel2  -->
+	<div data-role="panel" id="cart" data-position="right" data-display="push" data-theme="b">
+
+        <div id="myCart">                 
 <script>
+
+var counter = 0;
 
 $( "#addWedges" ).click(function() {
        if(wedges.qty < 10) { // add a little validation
           wedges.qty = wedges.qty + 1;
+		  counter = counter + 1;
           updateCart();  
        }
 });
@@ -187,34 +202,61 @@ $( "#addWedges" ).click(function() {
 $( "#removeWedges" ).click(function() {
    
            wedges.qty = wedges.qty - 1;
+		   counter = counter - 1;
            updateCart();  
            
            
 });
 
+$( "#addH" ).click(function() {
+       if(hawaiian.qty < 10) { // add a little validation
+          hawaiian.qty = hawaiian.qty + 1;
+		  counter = counter + 1;
+          updateCart();  
+       }
+});
+
+
+$( "#removeH" ).click(function() {
+   
+           hawaiian.qty = hawaiian.qty - 1;
+		   counter = counter - 1;
+           updateCart();  
+           
+           
+});
 // function to update the cart.
 function updateCart(){
-       var content = '';
+       var content = "";
       
       if (wedges.qty >= 1) { // check to see if we should add it or not
-          content = content + "Wedges " + wedges.qty + " price" + wedges.qty * wedges.price;
+          content = content + "Wedges x" + wedges.qty + " = €" + wedges.qty * wedges.price + "<br>";
           
            // select the cookie Qty box and add the new number of cookies selected.
            $( "#wedgesQty" ).val(wedges.qty);
+		   
+	
       }
+	  
+	  if (hawaiian.qty >=1) {
+	  content = content + "Hawaiian x" + hawaiian.qty + " = €" + hawaiian.qty * hawaiian.price +"<br>";
+          
+           // select the cookie Qty box and add the new number of cookies selected.
+           $( "#hQty" ).val(hawaiian.qty);
+		   
+	
+      }
+	 
       // display the content variable in the myCart div.
        $( "#myCart" ).html(content);
     
-      if(wedges.qty == 0){    
+      if(counter <= 0){    
           $( "#myCart" ).hide();
-		 $( "removeWedges" ).hide();
-      
-          $( "#wedgesQty" ).hide();
+		 
       } else {
        $( "#myCart" ).show();
       
-      
-          $( "#wedgesQty" ).show();
+
       }
 }
 
@@ -228,7 +270,12 @@ $( "#viewCart" ).click(function() {
 
 
 </script>
-  
+ </div>
+
+        <a href="#demo-links" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-icon-delete ui-btn-icon-left ui-btn-inline">Close panel</a>
+
+	</div><!-- /rightpanel2 -->
+ 
  
 
 
