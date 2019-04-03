@@ -126,7 +126,7 @@
       </div><!-- /header -->
 
       <div role="main" class="ui-content">
-	<h1>You're logged in</p>
+	<h1>You're logged in</h1>
 	
 <script>
 // template for a product
@@ -162,28 +162,31 @@ sprite = new product("Sprite 330ml", 1, 0);
 
 
 </script>
+ 
 
-
- Add some cookies.. <button id="addCookies">Add me</button> 
-                    <button id="removeCookies">No cookies</button>
-                    <input type="text" id="cookiesQty"/>
-                    
-<button id="viewCart">View Cart</button>
+<ul data-role="listview" data-inset="true" data-divider-theme="a">
+    <li data-role="list-divider">Sides</li>
+    <li><h3>Potato Wedges <button id="addWedges">Add</button> <button id="removeWedges">Remove</button><input type="text" id="wedgesQty"/> </li>
+    <li><a href="#">Outbox</a></li>
+    <li data-role="list-divider">Contacts</li>
+    <li><a href="#">Friends</a></li>
+    <li><a href="#">Work</a></li>
+</ul>
 
 <div id="myCart"></div>                 
 <script>
 
-$( "#addCookies" ).click(function() {
-       if(cookies.qty < 10) { // add a little validation
-          cookies.qty = cookies.qty + 1;
+$( "#addWedges" ).click(function() {
+       if(wedges.qty < 10) { // add a little validation
+          wedges.qty = wedges.qty + 1;
           updateCart();  
        }
 });
 
 
-$( "#removeCookies" ).click(function() {
+$( "#removeWedges" ).click(function() {
    
-           cookies.qty = cookies.qty - 1;
+           wedges.qty = wedges.qty - 1;
            updateCart();  
            
            
@@ -193,25 +196,25 @@ $( "#removeCookies" ).click(function() {
 function updateCart(){
        var content = '';
       
-      if (cookies.qty >= 1) { // check to see if we should add it or not
-          content = content + "Cookies " + cookies.qty + " price" + cookies.qty * cookies.price;
+      if (wedges.qty >= 1) { // check to see if we should add it or not
+          content = content + "Wedges " + wedges.qty + " price" + wedges.qty * wedges.price;
           
            // select the cookie Qty box and add the new number of cookies selected.
-           $( "#cookiesQty" ).val(cookies.qty);
+           $( "#wedgesQty" ).val(wedges.qty);
       }
       // display the content variable in the myCart div.
        $( "#myCart" ).html(content);
     
-      if(cookies.qty == 0){    
+      if(wedges.qty == 0){    
           $( "#myCart" ).hide();
+		 $( "removeWedges" ).hide();
       
-      
-          $( "#cookiesQty" ).hide();
+          $( "#wedgesQty" ).hide();
       } else {
        $( "#myCart" ).show();
       
       
-          $( "#cookiesQty" ).show();
+          $( "#wedgesQty" ).show();
       }
 }
 
