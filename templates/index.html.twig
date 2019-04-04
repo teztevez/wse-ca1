@@ -183,25 +183,26 @@ var counter = 0;
 	<li><h4>Sprite 330ml</h4><button id="addSprite">Add</button><button id="removeSprite">Remove</button><input type="text" id="spriteQty"/></li>    
 </ul>
 
-
+</div>
 
 	<!-- rightpanel2  -->
 	<div data-role="panel" id="cart" data-position="right" data-display="push" data-theme="b">
+	<h2>Your cart:</h2>
 
         <div id="myCart">
-
 <script>
 
 
 
-
+$( "#wedgesQty" ).hide();
 
 $( "#addWedges" ).click(function() {
        
           wedges.qty = wedges.qty + 1;
 		  counter = counter + 1;
-          updateCart();  
-		  window.alert("Added to cart.");
+          updateCart(); 
+		  $( "#wedgesQty" ).val(wedges.qty);
+		  $( "#wedgesQty" ).show();
        
 });
 
@@ -210,15 +211,22 @@ $( "#removeWedges" ).click(function() {
 		   if(wedges.qty > 0) {
            wedges.qty = wedges.qty - 1;
 		   counter = counter - 1;
-           updateCart();  
-           }
-           
+           updateCart();  	
+		   $( "#wedgesQty" ).val(wedges.qty);
+		       if(wedges.qty == 0) {
+			   $( "#wedgesQty" ).hide();
+			   }
+			   
+		   }
+		   
+		  
 });
 
 $( "#addH" ).click(function() {      
           hawaiian.qty = hawaiian.qty + 1;
 		  counter = counter + 1;
-          updateCart();  
+          updateCart();
+	      $( "#hQty" ).val(hawaiian.qty); 		  
        
 });
 
@@ -228,30 +236,21 @@ $( "#removeH" ).click(function() {
            hawaiian.qty = hawaiian.qty - 1;
 		   counter = counter - 1;
            updateCart();  
+		   $( "#hQty" ).val(hawaiian.qty); 	
            }
            
 });
 // function to update the cart.
 function updateCart(){
        var content = "";
-	   var total;
       
       if (wedges.qty >= 1) { // check to see if we should add it or not
-          content = content + "<p>Wedges x" + wedges.qty + " = €" + wedges.qty * wedges.price + "</p><br>";
-          
-           // select the cookie Qty box and add the new number of cookies selected.
-           $( "#wedgesQty" ).val(wedges.qty);
-		   
-	
+          content = content + "<p>Wedges x" + wedges.qty + " = €" + wedges.qty * wedges.price + "</p><br>";	
+		  od = wedges.name +" x "+wedges.qty;
       }
 	  
 	  if (hawaiian.qty >=1) {
-	  content = content + "<p>Hawaiian x" + hawaiian.qty + " = €" + hawaiian.qty * hawaiian.price +"</p><br>";
-          
-           // select the cookie Qty box and add the new number of cookies selected.
-           $( "#hQty" ).val(hawaiian.qty);
-		   
-	
+	  content = content + "<p>Hawaiian x" + hawaiian.qty + " = €" + hawaiian.qty * hawaiian.price +"</p><br>";	
       }
 	 
       // display the content variable in the myCart div.
@@ -272,11 +271,7 @@ function updateCart(){
 
 }
 
-$( "#viewCart" ).click(function() {
-      
-       updateCart();  
-    
-  });
+
  
 
 	
@@ -285,12 +280,35 @@ $( "#viewCart" ).click(function() {
 </script>
 
  </div>
+		
+        <a href="#demo-links" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-icon-delete ui-btn-icon-left ui-btn-inline">Close</a>
+		<button class="ui-btn" id="checkout">Submit</button>
+	<script>
 
-        <a href="#demo-links" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-icon-delete ui-btn-icon-left ui-btn-inline">Close panel</a>
+$( "#checkout" ).click(function() {
+      
+	var od = '';
+	var total = 0;
+	console.log(od);
+	console.log(total);
+	
+  });
+
+</script>  
 
 	</div><!-- /rightpanel2 -->
  
 	</div><!-- /content -->
+</div>
+
+<div data-role="page" id="test" data-theme="a">
+
+       <div data-role="header">
+		<h1>Test</h1>
+      </div><!-- /header -->
+
+<div role="main" class="ui-content">
+
 </div>
 
 <div data-role="page" id="manager" data-theme="a">
