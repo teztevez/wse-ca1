@@ -7,13 +7,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Login;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class Backend extends AbstractController
 {
 	/**
 	* @Route("/backend", name="catch") methods=("GET", "POST")
 	*/
-	public function index()
+	public function index(SessionInterface $session)
 	{
 		$request = Request::createFromGlobals(); //the envelope, and we're looking inside it
 		
@@ -45,16 +46,35 @@ class Backend extends AbstractController
 		
 		else if($type == 'login') //if we had a login
 		{
+			
+			
 			//get username and password
 			$username = $request->request->get('username', 'none');
 			$password = $request->request->get('password', 'none');
+			
+			
+		
 			
 			$repo = $this->getDoctrine()->getRepository(Login::class); //type of entityManager
 			
 			$person = $repo->findOneBy(['username' => $username, 'password' => $password,]);
 			
+			  
+                // save the user ID to the session
+                // KEY-VALUE
+                
+                // KEY - IS the name we give it
+                // $variable - is what we want to save.
+               $session->set('username', $username);
+			
+			
+			
 			return new Response($person->getAcctype());
 			
+		}
+		else if($type == 'getusername'){
+            // send back a response, with the username we stored in the session.
+            return new Response($session->get('username'));
 		}
 	}
 }
