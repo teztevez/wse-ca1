@@ -84,9 +84,19 @@
       </div><!-- /header -->
 
       <div role="main" class="ui-content">
-	
-
-
+	<div id="output">
+<script>
+    $.getJSON( "http://api.openweathermap.org/data/2.5/weather?q=Dublin&units=metric&APPID=a61ee660dd5693d29ccc68f5397830fc", function( data ) {
+  
+     console.log(data);
+     
+	 var main = data.main;
+	 
+	  $( "#output" ).html(main.temp);
+   
+  });
+  </script>
+</div>
 	</div><!-- /content -->
 </div>
 
@@ -162,19 +172,7 @@
  </div>
 		
         <a href="#demo-links" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-icon-delete ui-btn-icon-left ui-btn-inline">Close</a>
-		<button class="ui-btn" id="checkout">Submit</button>
-	<script>
-
-$( "#checkout" ).click(function() {
-      
-	var od = '';
-	var total = 0;
-	console.log(od);
-	console.log(total);
-	
-  });
-
-</script>  
+		<button class="ui-btn" id="checkout">Submit</button> 
 
 	</div><!-- /rightpanel2 -->
  
@@ -209,7 +207,7 @@ $( "#checkout" ).click(function() {
 
 <script>
 
-
+//////////////////////actions for clicking login button ////////////////////////////////
 $( "#loginButton" ).click(function() {
   
       var un = $( "#login_username" ).val();
@@ -242,18 +240,7 @@ $( "#loginButton" ).click(function() {
 });
 
 
-</script>
-
-
-
-
-
-
-
-
-
-
-<script>
+////////////////////////actions for clicking register button ///////////////////////////////////////////
 $( "#registerButton" ).click(function() { //when register button is pressed
   
       var un = $( "#username" ).val(); //grab value from username field and assign it to variable un
@@ -279,11 +266,10 @@ $( "#registerButton" ).click(function() { //when register button is pressed
   
   
 });
-</script>
 
+//////////////////////////////actions on customer page/////////////////////////////////////////////////////
 
-<script>
-// template for a product
+/// template for a product
 
 class product {
   constructor(name, price, qty) {
@@ -314,10 +300,6 @@ sprite = new product("Sprite 330ml", 1, 0);
 
 var counter = 0;
 
-
-</script>
-
-<script>
 
 
 
@@ -367,7 +349,8 @@ $( "#removeH" ).click(function() {
            }
            
 });
-// function to update the cart.
+
+////function to update the cart.
 function updateCart(){
        var content = "";
       
@@ -397,6 +380,15 @@ function updateCart(){
 	  
 
 }
+
+
+////when click checkout button
+
+$( "#checkout" ).click(function() {
+      
+	
+	
+  });
 	
 
 
