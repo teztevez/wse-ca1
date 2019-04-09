@@ -120,8 +120,9 @@
 	 
 	  $( "#output" ).html(displayweather);
    
+   
   });
-  
+  $( "#output" ).hide();
   </script>
 </div>
 	</div><!-- /content -->
@@ -170,21 +171,15 @@
 <script> $( "#cartlink" ).hide(); //hides view cart link on first page load - then update cart controls it after that </script>
 </div>
 
-
+<button onclick="checkout()"/>Checkout</button>
  
 <!-- Menu -->
 <ul data-role="listview" data-inset="true" data-divider-theme="a">
     <li data-role="list-divider">Pizza</li>
-    <li><h4>Hawaiian</h4><button id="addH">Add</button><button id="removeH">Remove</button><input type="text" id="hQty"/></li>
-    <li><h4>New York</h4><button id="addNy">Add</button><button id="removeNy">Remove</button><input type="text" id="nyQty"/></li>
-	<li><h4>House Special</h4><button id="addHouse">Add</button><button id="removeHouse">Remove</button><input type="text" id="houseQty"/></li>
+    <li><h4>Hawaiian</h4><button id="addProduct1" productname="hawaiian">Add</button><button id="removeProduct1">Remove</button><input type="text" id="hawaiianQty"/></li>
     <li data-role="list-divider">Sides</li>
-    <li><h4>Potato Wedges</h4><button id="addWedges">Add</button><button id="removeWedges">Remove</button><input type="text" id="wedgesQty"/></li>
-    <li><h4>Garlic Bread</h4><button id="addGarlic">Add</button><button id="removeGarlic">Remove</button><input type="text" id="garlicQty"/></li>
-    <li data-role="list-divider">Drinks</li>
-    <li><h4>Coca Cola 330ml</h4><button id="addCoke">Add</button><button id="removeCoke">Remove</button><input type="text" id="cokeQty"/></li>
-	<li><h4>Fanta 330ml</h4><button id="addFanta">Add</button><button id="removeFanta">Remove</button><input type="text" id="fantaQty"/></li>
-	<li><h4>Sprite 330ml</h4><button id="addSprite">Add</button><button id="removeSprite">Remove</button><input type="text" id="spriteQty"/></li>    
+    <li><h4>Potato Wedges</h4><button id="addProduct2" productname="wedges">Add</button><button id="removeProdut2">Remove</button><input type="text" id="wedgesQty"/></li>
+ 
 </ul>
 
 </div>
@@ -325,57 +320,70 @@ cola = new product("Coca Cola 330ml", 1, 0);
 fanta = new product("Fanta 330ml", 1, 0);
 sprite = new product("Sprite 330ml", 1, 0);
 
-var counter = 0;
+var counter = 0; //may not be needed now
 
 
+var prod = []; //array for products
+
+prod.push(hawaiian);
+prod.push(wedges);
 
 
-$( "#wedgesQty" ).hide();
+$('[id^=addProduct').click(function(){
 
-$( "#addWedges" ).click(function() {
-       
-          wedges.qty = wedges.qty + 1;
-		  counter = counter + 1;
-          updateCart(); 
-		  $( "#wedgesQty" ).val(wedges.qty);
-		  $( "#wedgesQty" ).show();
-       
+    var p = $(this).attr('productname'); // find out what was clicked
+    
+    var arrayLength = prod.length;
+    for (var i = 0; i < arrayLength; i++) { // loop over the products
+        
+        var pro = prod[i] // get one product at a time
+        console.log(pro.name);
+        
+        if(p == pro.name) {
+        
+            console.log(pro.qty);
+            
+            pro.qty = pro.qty + 1;
+            
+              $( "#"+pro.name+"Qty" ).val(pro.qty);
+
+        }
+        //Do something   
+        
+    }
+        
 });
 
 
-$( "#removeWedges" ).click(function() {
-		   if(wedges.qty > 0) {
-           wedges.qty = wedges.qty - 1;
-		   counter = counter - 1;
-           updateCart();  	
-		   $( "#wedgesQty" ).val(wedges.qty);
-		       if(wedges.qty == 0) {
-			   $( "#wedgesQty" ).hide();
-			   }
-			   
-		   }
-		   
-		  
-});
+$('[id^=removeProduct').click(function(){
 
-$( "#addH" ).click(function() {      
-          hawaiian.qty = hawaiian.qty + 1;
-		  counter = counter + 1;
-          updateCart();
-	      $( "#hQty" ).val(hawaiian.qty); 		  
-       
+   var p = $(this).attr('productname');
 });
 
 
-$( "#removeH" ).click(function() {
-           if(hawaiian.qty > 0) {
-           hawaiian.qty = hawaiian.qty - 1;
-		   counter = counter - 1;
-           updateCart();  
-		   $( "#hQty" ).val(hawaiian.qty); 	
-           }
-           
-});
+
+
+function checkout(){
+
+var ser = '';
+
+ var arrayLength = prod.length;
+    for (var i = 0; i < arrayLength; i++) { // loop over the products
+        
+        var pro = prod[i] // get one product at a time
+        console.log(pro.name);
+        console.log(pro.qty);
+        
+        ser = ser + pro.name + '-' + pro.qty + '=';
+        
+      //
+     }
+
+// jQuery post and send the set.
+console.log(ser);
+}
+
+
 
 ////function to update the cart.
 function updateCart(){
