@@ -84,14 +84,10 @@
       </div><!-- /header -->
 
       <div role="main" class="ui-content">
-      <div data-role="navbar">
-    <ul>
-        <li><button id="show_o">Orders</button></li>
-        <li><button id="show_w">Weather</button></li>
-    </ul>
-	</div><!-- /navbar -->
+      <a href="#weather" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-mini">View Weather</a></h2>
+	<div data-role="panel" id="weather" data-position="left" data-display="overlay" data-theme="a">
 	
-	<div id="output">
+	
 <script>
     $.getJSON( "http://api.openweathermap.org/data/2.5/weather?q=Dublin&units=metric&APPID=a61ee660dd5693d29ccc68f5397830fc", function( data ) { //appended metric units for output
   
@@ -99,30 +95,30 @@
 	 var loc = data.name;
 	 var displayweather = "";
 	 
-	 displayweather = displayweather + '<div class="ui-grid-a" style="width:50%">';
-     displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:30px">Location:</div></div>';
-     displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:30px">'+loc+'</div></div>';
+	 displayweather = displayweather + '<div class="ui-grid-a">';
+     displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:35px">Location:</div></div>';
+     displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:35px">'+loc+'</div></div>';
 
-     displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:30px">Current Temperature:</div></div>';
-     displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:30px">'+main.temp+'&#8451</div></div>';
+     displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:35px">Current Temperature:</div></div>';
+     displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:35px">'+main.temp+'&#8451</div></div>';
 
-	 displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:30px">Min. Temperature:</div></div>';
-     displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:30px">'+main.temp_min+'&#8451</div></div>';
+	 displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:35px">Min. Temperature:</div></div>';
+     displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:35px">'+main.temp_min+'&#8451</div></div>';
 
-     displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:30px">Max. Temperature:</div></div>';
-     displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:30px">'+main.temp_max+'&#8451</div></div>';
+     displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:35px">Max. Temperature:</div></div>';
+     displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:35px">'+main.temp_max+'&#8451</div></div>';
 
-	 displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:30px">Humidity:</div></div>';
-     displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:30px">'+main.humidity+'%</div></div>';
+	 displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:35px">Humidity:</div></div>';
+     displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:35px">'+main.humidity+'%</div></div>';
 
-     displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:30px">Pressure:</div></div>';
-     displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:30px">'+main.pressure+'(hPa)</div></div></div>';
+     displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:35px">Pressure:</div></div>';
+     displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:35px">'+main.pressure+'(hPa)</div></div></div>';
 	 
-	  $( "#output" ).html(displayweather);
+	  $( "#weather" ).html(displayweather);
    
    
   });
-  $( "#output" ).hide();
+
   </script>
 </div>
 	</div><!-- /content -->
@@ -176,21 +172,123 @@
 <!-- Menu -->
 <ul data-role="listview" data-inset="true" data-divider-theme="a">
     <li data-role="list-divider">Pizza</li>
-    <li><h4>Hawaiian</h4><button id="addProduct1" productname="hawaiian">Add</button><button id="removeProduct1">Remove</button><input type="text" id="hawaiianQty"/></li>
+    <li><h4>Hawaiian</h4><button id="addProduct1" productname="hawaiian">Add</button><button id="removeProduct1" productname="hawaiian">Remove</button><input type="text" id="hawaiianQty"/></li>
     <li data-role="list-divider">Sides</li>
-    <li><h4>Potato Wedges</h4><button id="addProduct2" productname="wedges">Add</button><button id="removeProdut2">Remove</button><input type="text" id="wedgesQty"/></li>
+    <li><h4>Potato Wedges</h4><button id="addProduct2" productname="wedges">Add</button><button id="removeProduct2" productname="wedges">Remove</button><input type="text" id="wedgesQty"/></li>
  
 </ul>
-
+ <a href="#cart" id="cart" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-mini">View Cart</a></h2>
+	
 </div>
 
 	<!-- rightpanel2  -->
 	<div data-role="panel" id="cart" data-position="right" data-display="push" data-theme="b">
 	<h2>Your cart:</h2>
 
+	
         <div id="myCart">
+<script>
+//////////////////////////////actions on customer page/////////////////////////////////////////////////////
+
+/// template for a product
+
+class product {
+  constructor(name, price, qty, view) { //view used for display purposes
+    this.name = name
+    this.price = price;
+    this.qty = qty;
+	this.view = view;
+  }
+}
 
 
+
+
+
+// define our products
+//Pizza
+hawaiian = new product("hawaiian", 5, 0, "Hawaiian");
+newyork = new product("newyork", 5, 0, "New Yorker");
+house = new product("house", 5, 0, "House Special");
+
+//sides
+wedges = new product("wedges", 5, 0, "Potato Wedges");
+gbread = new product("gbread", 5,0, "Garlic Bread");
+
+//drinks
+cola = new product("cola", 1, 0, "Coca Cola 330ml");
+fanta = new product("fanta", 1, 0, "Fanta 330ml");
+sprite = new product("sprite", 1, 0, "Sprite 330ml");
+
+
+var prod = []; //array for products
+
+prod.push(hawaiian);
+prod.push(wedges);
+
+
+var content = "";
+var counter = 0; //may not be needed now
+
+$('[id^=addProduct').click(function(){
+
+    var p = $(this).attr('productname'); // find out what was clicked - $(this) refers to button that was pressed, then look for the attribute
+    
+    var arrayLength = prod.length;
+    for (var i = 0; i < arrayLength; i++) { // loop over the products
+        
+        var pro = prod[i] // get one product at a time
+        console.log(pro.name);
+        
+        if(p == pro.name) { //if p matches the current item in the array, increase the quantity by 1
+        
+            console.log(pro.qty);
+            
+            pro.qty = pro.qty + 1;
+			
+			content = content + "<p>"+pro.view + " - €" + pro.qty * hawaiian.price +"</p><br>";	
+            
+              $( "#"+pro.name+"Qty" ).val(pro.qty);
+
+        }
+        //Do something   
+        
+    }
+        
+});
+$( "#cart" ).click(function(){
+$( "#myCart" ).html(content);
+});
+
+$('[id^=removeProduct').click(function(){
+
+   var p = $(this).attr('productname'); // find out what was clicked - $(this) refers to button that was pressed, then look for the attribute
+    
+    var arrayLength = prod.length;
+    for (var i = 0; i < arrayLength; i++) { // loop over the products
+        
+        var pro = prod[i] // get one product at a time
+        console.log(pro.name);
+        
+        if(p == pro.name) { //if p matches the current item in the array, increase the quantity by 1
+        
+            console.log(pro.qty);
+            
+            pro.qty = pro.qty - 1;
+			
+			content = content + "<p>"+pro.view + " - €" + pro.qty * hawaiian.price +"</p><br>";
+            
+              $( "#"+pro.name+"Qty" ).val(pro.qty);
+
+        }
+        //Do something   
+        
+    }
+        
+});
+
+
+</script>
  </div>
 		
         <a href="#demo-links" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-icon-delete ui-btn-icon-left ui-btn-inline">Close</a>
@@ -201,15 +299,6 @@
 	</div><!-- /content -->
 </div>
 
-<div data-role="page" id="test" data-theme="a">
-
-       <div data-role="header">
-		<h1>Test</h1>
-      </div><!-- /header -->
-
-<div role="main" class="ui-content">
-
-</div>
 
 <div data-role="page" id="manager" data-theme="a">
 
@@ -289,76 +378,6 @@ $( "#registerButton" ).click(function() { //when register button is pressed
   
 });
 
-//////////////////////////////actions on customer page/////////////////////////////////////////////////////
-
-/// template for a product
-
-class product {
-  constructor(name, price, qty) {
-    this.name = name
-    this.price = price;
-    this.qty = qty;
-  }
-}
-
-
-
-
-
-// define our products
-//Pizza
-hawaiian = new product("Hawaiian", 5, 0);
-newyork = new product("New Yorker", 5, 0);
-house = new product("House Special", 5, 0);
-
-//sides
-wedges = new product("Potato Wedges", 5, 0);
-gbread = new product("Garlic Bread", 5,0);
-
-//drinks
-cola = new product("Coca Cola 330ml", 1, 0);
-fanta = new product("Fanta 330ml", 1, 0);
-sprite = new product("Sprite 330ml", 1, 0);
-
-var counter = 0; //may not be needed now
-
-
-var prod = []; //array for products
-
-prod.push(hawaiian);
-prod.push(wedges);
-
-
-$('[id^=addProduct').click(function(){
-
-    var p = $(this).attr('productname'); // find out what was clicked
-    
-    var arrayLength = prod.length;
-    for (var i = 0; i < arrayLength; i++) { // loop over the products
-        
-        var pro = prod[i] // get one product at a time
-        console.log(pro.name);
-        
-        if(p == pro.name) {
-        
-            console.log(pro.qty);
-            
-            pro.qty = pro.qty + 1;
-            
-              $( "#"+pro.name+"Qty" ).val(pro.qty);
-
-        }
-        //Do something   
-        
-    }
-        
-});
-
-
-$('[id^=removeProduct').click(function(){
-
-   var p = $(this).attr('productname');
-});
 
 
 
@@ -374,16 +393,19 @@ var ser = '';
         console.log(pro.name);
         console.log(pro.qty);
         
-        ser = ser + pro.name + '-' + pro.qty + '=';
+        ser = ser + pro.name + '-' + pro.qty + '='; //flattens the array into one long string, using = as a delimiter 
         
       //
      }
 
-// jQuery post and send the set.
-console.log(ser);
+$.post( "/catchTheCart", { placedby: "John", ser: ser })
+      .done(function( data ) {
+        alert( "Data Loaded: " + data );
+      });
 }
 
 
+/*
 
 ////function to update the cart.
 function updateCart(){
@@ -416,16 +438,7 @@ function updateCart(){
 
 }
 
-
-////when click checkout button
-
-$( "#checkout" ).click(function() {
-      
-	
-	
-  });
-	
-
+*/
 
 </script>
 
