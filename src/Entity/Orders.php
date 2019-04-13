@@ -19,17 +19,17 @@ class Orders
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $order_details;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $time;
+    private $placedby;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $cost;
+    private $details;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $address;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -41,38 +41,38 @@ class Orders
         return $this->id;
     }
 
-    public function getOrderDetails(): ?string
+    public function getPlacedby(): ?string
     {
-        return $this->order_details;
+        return $this->placedby;
     }
 
-    public function setOrderDetails(string $order_details): self
+    public function setPlacedby(string $placedby): self
     {
-        $this->order_details = $order_details;
+        $this->placedby = $placedby;
 
         return $this;
     }
 
-    public function getTime(): ?\DateTimeInterface
+    public function getDetails(): ?string
     {
-        return $this->time;
+        return $this->details;
     }
 
-    public function setTime(\DateTimeInterface $time): self
+    public function setDetails(string $details): self
     {
-        $this->time = $time;
+        $this->details = $details;
 
         return $this;
     }
 
-    public function getCost(): ?string
+    public function getAddress(): ?string
     {
-        return $this->cost;
+        return $this->address;
     }
 
-    public function setCost(string $cost): self
+    public function setAddress(string $address): self
     {
-        $this->cost = $cost;
+        $this->address = $address;
 
         return $this;
     }

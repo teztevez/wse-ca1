@@ -107,12 +107,14 @@
 	    $( "#driverOrders" ).hide();
 	  </script>
 	  </div>
-	  <div id="weather">      
+	  <div id="weather">   
+	    <h1>Today's Weather:</h1>
+		<div id="weatherTable">
     <script>
         $.getJSON( "http://api.openweathermap.org/data/2.5/weather?q=Dublin&units=metric&APPID=a61ee660dd5693d29ccc68f5397830fc", function( data ) { //appended metric units for output
   
          var main = data.main; //humidity(%), pressure(hPa), temp(C), temp_max, temp_min
-	     var loc = data.name;
+	     var loc = data.name;	
 	     var displayweather = "";
 	 
 	     displayweather = displayweather + '<div class="ui-grid-a">';
@@ -133,15 +135,18 @@
 
          displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:35px">Pressure:</div></div>';
          displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:35px">'+main.pressure+'(hPa)</div></div></div>';
+
+
 	 
-	    $( "#weather" ).html(displayweather);   
+	    $( "#weatherTable" ).html(displayweather);   
+		console.log(data);
       });
 	  
 	  
 	  $( "#weather" ).hide();
 	  </script>
-    </script>
-    </div> <!-- end weather div>
+    </div> <!-- end weather div -->
+	</div>
 	</div><!-- /content -->
 </div>
 
@@ -454,7 +459,7 @@ var ser = '';
       //
      }
 
-$.post( "/catchTheCart", { placedby: "John", ser: ser })
+$.post( "/catchTheCart", { placedby: "John", ser: ser, address: "41 Cill Ban, Tullamore", status: "pending"})
       .done(function( data ) {
         alert( "Data Loaded: " + data );
       });
