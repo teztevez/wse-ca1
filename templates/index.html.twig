@@ -82,10 +82,32 @@
       </div><!-- /header -->
 
       <div role="main" class="ui-content">
-      <a href="#weather" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-mini">View Weather</a></h2>
-	<div data-role="panel" id="weather" data-position="left" data-display="overlay" data-theme="a">
+	  <button onclick="viewWeather()">View Weather Information</button>
+	  <button onclick="viewDriverOrders()">View Orders</button>
+	  
+	  <script>
 	
-	
+	  
+	  function viewWeather() {
+	      $( "#weather" ).show();
+	      $( "#driverOrders" ).hide();
+	  }
+	  
+	  function viewDriverOrders() {
+		   $( "#driverOrders" ).show();
+		   $( "#weather" ).hide();
+	  }
+	  
+	  
+	  
+	  </script>
+	  <div id="driverOrders">
+	  <h1>Orders Go Here:</h1>
+	   <script>
+	    $( "#driverOrders" ).hide();
+	  </script>
+	  </div>
+	  <div id="weather">      
     <script>
         $.getJSON( "http://api.openweathermap.org/data/2.5/weather?q=Dublin&units=metric&APPID=a61ee660dd5693d29ccc68f5397830fc", function( data ) { //appended metric units for output
   
@@ -114,8 +136,12 @@
 	 
 	    $( "#weather" ).html(displayweather);   
       });
+	  
+	  
+	  $( "#weather" ).hide();
+	  </script>
     </script>
-    </div>
+    </div> <!-- end weather div>
 	</div><!-- /content -->
 </div>
 
