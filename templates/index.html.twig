@@ -85,6 +85,8 @@
 	  <button onclick="viewWeather()">View Weather Information</button>
 	  <button onclick="viewDriverOrders()">View Orders</button>
 	  
+	  
+	  
 	  <script>
 	
 	  
@@ -186,6 +188,8 @@
       </div><!-- /header -->
 
 <div role="main" class="ui-content">
+
+<button id="vieworders">Test</button>
 
 <div id="cartlink" data-role="footer" data-position="fixed" data-theme="b">	
 <h2>You have items in your cart!<a href="#cart" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-mini">View Cart</a></h2>
@@ -441,6 +445,19 @@ $( "#registerButton" ).click(function() { //when register button is pressed
 
 
 
+$( "#vieworders" ).click(function() {
+  
+   
+      $.post( "/backend", { type: "vieworders"})
+     .done(function( data ) {
+	 alert("Data loaded: " + data);
+	 console.log(data);
+	 });
+	 
+  
+});
+
+
 
 
 function checkout(){
@@ -459,7 +476,7 @@ var ser = '';
       //
      }
 
-$.post( "/catchTheCart", { placedby: "John", ser: ser, address: "41 Cill Ban, Tullamore", status: "pending"})
+$.post( "/backend", { type: "placeorder", ser: ser, address: "41 Cill Ban, Tullamore", status: "pending"})
       .done(function( data ) {
         alert( "Data Loaded: " + data );
       });
