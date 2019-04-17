@@ -468,10 +468,11 @@ var ser = '';
     for (var i = 0; i < arrayLength; i++) { // loop over the products
         
         var pro = prod[i] // get one product at a time
-        console.log(pro.name);
-        console.log(pro.qty);
         
-        ser = ser + pro.name + '-' + pro.qty + '='; //flattens the array into one long string, using = as a delimiter 
+		if(pro.qty > 0) { //don't send items that haven't been selected.
+        
+            ser = ser + pro.view + '-' + pro.qty + '='; //flattens the array into one long string, using = as a delimiter 
+			}
         
       //
      }

@@ -97,18 +97,21 @@ class Backend extends AbstractController
       
       
       
-      // Break apart the serialized order
-	  
-        //$data = explode('=', $ser); //this is what order details look like
+        // Break apart the serialized order
+	    $ser = substr($ser, 0, -1);
+        $data = explode('=', $ser); //this is what order details look like
         
-        //foreach($data as $record) {    
-           
-
-       //     $item = explode('-',$record);
-        //    echo 'Item: ' . $item[0] . '<br>';
-        //    echo 'Qty: ' . $item[1] . '<br>';
+		
+		$details = '';
+        foreach($data as $record) {  
+			$item = explode('-', $record);
+			
             
-     //   }
+                $details .= $item[0] . ' x ' . $item[1] . "|";
+			
+            
+            
+        }
     
         
         // to work the objects
@@ -118,8 +121,8 @@ class Backend extends AbstractController
         $order = new Orders();
         
         $order->setPlacedBy($placedby);
-       // $order->setDetails(substr($data, 0, -1));
-		$order->setDetails($ser);		//knocks last = sign off the end of description
+        //$order->setDetails(substr($details, 0, -1));
+		$order->setDetails($details);		//knocks last = sign off the end of description
 		$order->setAddress($address);
 		$order->setStatus($status);
 
@@ -133,7 +136,7 @@ class Backend extends AbstractController
 
        
         return new Response(
-            'all ok' . $ser
+            'all ok' . $details
         );  
 		
 		}		
