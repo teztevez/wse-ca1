@@ -363,6 +363,28 @@ for (var i = 0; i < arrayLength; i++) {
 $( "#myCart" ).html(content);
 });
 
+
+
+
+</script>
+ </div>
+		
+        <a href="#demo-links" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-icon-delete ui-btn-icon-left ui-btn-inline">Close</a>
+		<button id="summary"><a href="/index#orderSummary">Proceed to Checkout</a></button>
+
+	</div><!-- /rightpanel2 -->
+ 
+	</div><!-- /content -->
+</div>
+
+<div data-role="page" id="orderSummary">
+
+	<div data-role="header" data-theme="a">
+		<h1>Place Order</h1>
+	</div><!-- /header -->
+	<h2>Order Summary:</h2>
+	<div id="cartSummary">
+	<script>
 $( "#summary" ).click(function(){
 var content = "";
 var arrayLength = prod.length;
@@ -374,28 +396,19 @@ for (var i = 0; i < arrayLength; i++) {
 	   content = content + "<p>" + pro.view + " (x" + pro.qty + ") - €" + pro.qty*pro.price + "</p>";
 	   }
     }
-$( "#myCart" ).html(content);
+$( "#cartSummary" ).html(content);
+//window.location="/index#orderSummary";
 });
-
-
 </script>
- </div>
-		
-        <a href="#demo-links" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-icon-delete ui-btn-icon-left ui-btn-inline">Close</a>
-		<button onclick="checkout()"/>Checkout</button>
-
-	</div><!-- /rightpanel2 -->
- 
-	</div><!-- /content -->
-</div>
-
-<div data-role="page" id="summary">
-
-	<div data-role="header" data-theme="b">
-		<h1>Place Order</h1>
-	</div><!-- /header -->
-
-	
+    </div>	
+	<h3>Enter Address:</h3>
+	<label for="add1">Address Line 1:</label>
+	<input type="text" name="add1" id="add1" value="" autofocus>
+	<label for="add2">Address Line 2:</label>
+	<input type="text" name="add2" id="add2" value="">
+	<label for="add3">Address Line 3:</label>
+	<input type="text" name="add3" id="add3" value="">
+	<button onclick="checkout()"/>Checkout</button>
 </div><!-- /page popup -->
 
 
@@ -508,8 +521,11 @@ var ser = '';
         
       //
      }
+var ad = "<p>" + $( "#add1" ).val() + "</p>";
+    ad = ad + "<p>" + $( "#add2" ).val() + "</p>";
+	ad = ad + "<p>" + $( "#add3" ).val() + "</p>";
 
-$.post( "/backend", { type: "placeorder", ser: ser, address: "41 Cill Ban, Tullamore", status: "pending"})
+$.post( "/backend", { type: "placeorder", ser: ser, address: ad, status: "pending"})
       .done(function( data ) {
         alert( "Data Loaded: " + data );
       });
