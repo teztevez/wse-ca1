@@ -132,6 +132,7 @@ td, th {
 
 });
 	    $( "#driverOrders" ).hide();
+		
 	  </script>
 	  </div>
 	  <div id="weather">   
@@ -550,7 +551,17 @@ $.post( "/backend", { type: "placeorder", ser: ser, address: ad, status: "Awaiti
       });
 }
 
-
+$('[id^=change').click(function(){
+    
+    var ostatus = $(this).attr('orderid'); // find out what was clicked - $(this) refers to button that was pressed, then look for the attribute
+    console.log(ostatus);
+	
+      $.post( "/backend", { type: "updateStatus", ostatus: ostatus})
+     .done(function( data ) {
+	  console.log(data);
+	  //window.location="/index#driver";
+	 });    
+});
 /*
 
 ////function to update the cart.

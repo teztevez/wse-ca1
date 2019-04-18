@@ -90,6 +90,8 @@ class Backend extends AbstractController
 		    }
 			
 			$table .= "</tbody></table>";
+			
+			$table .= '<button id="change'.$order->getId().'" orderid="'.$order->getId().'">Update</button>';
 		
 					
 			return new Response($table);
@@ -152,6 +154,10 @@ class Backend extends AbstractController
 		
 		}		
         
+		else if($type == 'updateStatus') {
+			$status = $request->request->get('ostatus', 'none');
+			return new Response($status); 
+		}
        
     
 	}
