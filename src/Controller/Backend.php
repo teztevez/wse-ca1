@@ -73,17 +73,24 @@ class Backend extends AbstractController
 			//$id = $session->get('id');
 			$placedby = $session->get('placedby');
 			
-			$string1 = "";
-			
 			$repository = $this->getDoctrine()->getRepository(Orders::class);
-            //$orders = $repository->findAll()->get($placedby);
+            $orders = $repository->findAll();
 			
-			//foreach($orders as $order => $x) {
-			//	$string1 .= "<p>".$x."</p>";
-			//}
+			$table = "<table><thead><tr><th>Customer</th><th>Order Details</th><th>Delivering To:</th><th>Order Status</th></tr></thead>";
+			
+			foreach($orders as $order) {
+				$table .= "<tr>";
+				$table .= "<td>".$order->getPlacedby()."</td>";
+				$table .= "<td>".$order->getDetails()."</td>";
+				$table .= "<td>".$order->getAddress()."</td>";
+				$table .= "<td>".$order->getStatus()."</td>";
+				$table .= "</tr>";
+		    }
+			
+			$table .= "</table>";
 		
 					
-			return new Response($placedby);
+			return new Response($table);
 		}
 		
 		else if($type == 'placeorder'){         
@@ -107,7 +114,7 @@ class Backend extends AbstractController
 			$item = explode('-', $record);
 			
             
-                $details .= $item[0] . ' x ' . $item[1] . "|";
+                $details .= "<p>".$item[0] . " x " . $item[1] . "</p>";
 			
             
             

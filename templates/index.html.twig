@@ -83,7 +83,7 @@
 
       <div role="main" class="ui-content">
 	  <button onclick="viewWeather()">View Weather Information</button>
-	  <button onclick="viewDriverOrders()">View Orders</button>
+	  <button id="vieworders1">View Orders</button>
 	  
 	  
 	  
@@ -106,6 +106,18 @@
 	  <div id="driverOrders">
 	  <h1>Orders Go Here:</h1>
 	   <script>
+	   $( "#vieworders1" ).click(function() {
+  
+   
+      $.post( "/backend", { type: "vieworders"})
+     .done(function( data ) {
+	 $( "#driverOrders" ).html(data);
+	 $( "#weather" ).hide();
+	 $( "#driverOrders" ).show();
+	 });
+	 
+
+});
 	    $( "#driverOrders" ).hide();
 	  </script>
 	  </div>
@@ -189,7 +201,6 @@
 
 <div role="main" class="ui-content">
 
-<button id="vieworders">Test</button>
 
 <div id="cartlink" data-role="footer" data-position="fixed" data-theme="b">	
 <h2>You have items in your cart!<a href="#cart" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-mini">View Cart</a></h2>
@@ -352,6 +363,20 @@ for (var i = 0; i < arrayLength; i++) {
 $( "#myCart" ).html(content);
 });
 
+$( "#summary" ).click(function(){
+var content = "";
+var arrayLength = prod.length;
+for (var i = 0; i < arrayLength; i++) {
+    
+	var pro = prod[i];
+	
+	if (pro.qty > 0) {
+	   content = content + "<p>" + pro.view + " (x" + pro.qty + ") - €" + pro.qty*pro.price + "</p>";
+	   }
+    }
+$( "#myCart" ).html(content);
+});
+
 
 </script>
  </div>
@@ -364,6 +389,15 @@ $( "#myCart" ).html(content);
 	</div><!-- /content -->
 </div>
 
+<div data-role="page" id="summary">
+
+	<div data-role="header" data-theme="b">
+		<h1>Place Order</h1>
+	</div><!-- /header -->
+
+	
+</div><!-- /page popup -->
+
 
 <div data-role="page" id="manager" data-theme="a">
 
@@ -372,7 +406,21 @@ $( "#myCart" ).html(content);
       </div><!-- /header -->
 
       <div role="main" class="ui-content">
-		<p>test</p>
+	  <button id="vieworders">Test</button>
+	  <div id="managerorders">
+	  <script>
+	  $( "#vieworders" ).click(function() {
+  
+   
+      $.post( "/backend", { type: "vieworders"})
+     .done(function( data ) {
+	 $( "#managerorders" ).html(data);
+	 });
+	 
+
+});
+	  </script>
+	  </div>
   
  
 
@@ -442,22 +490,6 @@ $( "#registerButton" ).click(function() { //when register button is pressed
   
   
 });
-
-
-
-$( "#vieworders" ).click(function() {
-  
-   
-      $.post( "/backend", { type: "vieworders"})
-     .done(function( data ) {
-	 alert("Data loaded: " + data);
-	 console.log(data);
-	 });
-	 
-  
-});
-
-
 
 
 function checkout(){
