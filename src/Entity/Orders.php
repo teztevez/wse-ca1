@@ -34,6 +34,12 @@ class Orders
     /**
      * @ORM\Column(type="string", length=255)
      */
+	 
+	private $total;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     private $status;
 
     public function getId(): ?int
@@ -73,6 +79,18 @@ class Orders
     public function setAddress(string $address): self
     {
         $this->address = $address;
+
+        return $this;
+    }
+	
+	public function getTotal(): ?string
+    {
+        return $this->total;
+    }
+
+    public function setTotal(string $total): self
+    {
+        $this->total = $total;
 
         return $this;
     }

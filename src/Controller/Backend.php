@@ -76,18 +76,20 @@ class Backend extends AbstractController
 			$repository = $this->getDoctrine()->getRepository(Orders::class);
             $orders = $repository->findAll();
 			
-			$table = "<table><thead><tr><th>Customer</th><th>Order Details</th><th>Delivering To:</th><th>Order Status</th></tr></thead>";
+			$table = '<table data-role="table" id="movie-table-custom" data-mode="reflow" class="movie-list ui-responsive"><thead><tr><th data-priority="1">Order ID</th><th data-priority="1">Customer</th><th data-priority="1">Order Details</th><th data-priority="1">Delivering To:</th><th data-priority="1">Order Total</th><th data-priority="1">Order Status</th></tr></thead><tbody>';
 			
 			foreach($orders as $order) {
 				$table .= "<tr>";
+				$table .= "<td>".$order->getId()."</td>";
 				$table .= "<td>".$order->getPlacedby()."</td>";
 				$table .= "<td>".$order->getDetails()."</td>";
 				$table .= "<td>".$order->getAddress()."</td>";
+				$table .= "<td>€".$order->getTotal()."</td>";
 				$table .= "<td>".$order->getStatus()."</td>";
 				$table .= "</tr>";
 		    }
 			
-			$table .= "</table>";
+			$table .= "</tbody></table>";
 		
 					
 			return new Response($table);
@@ -99,6 +101,7 @@ class Backend extends AbstractController
         $placedby = $session->get('placedby');
         $ser = $request->request->get('ser', 'this is the default');
         $address = $request->request->get('address', 'this is the default');
+		$total = $request->request->get('total');
 		$status = $request->request->get('status', 'this is the default');
       
       
@@ -131,6 +134,7 @@ class Backend extends AbstractController
         //$order->setDetails(substr($details, 0, -1));
 		$order->setDetails($details);		//knocks last = sign off the end of description
 		$order->setAddress($address);
+		$order->setTotal($total);
 		$order->setStatus($status);
 
 

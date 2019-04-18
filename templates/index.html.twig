@@ -8,6 +8,19 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Pippa's Pizza</title>
 
+<style>
+table {
+  display: table;
+  border-collapse: separate;
+  border-spacing: 50px 0;
+  margin: 2em;
+}
+
+td, th {
+  padding: 10px 0;
+  
+}
+</style>
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
@@ -387,15 +400,20 @@ $( "#myCart" ).html(content);
 	<script>
 $( "#summary" ).click(function(){
 var content = "";
+var total = 0;
 var arrayLength = prod.length;
 for (var i = 0; i < arrayLength; i++) {
     
+	
 	var pro = prod[i];
 	
 	if (pro.qty > 0) {
-	   content = content + "<p>" + pro.view + " (x" + pro.qty + ") - €" + pro.qty*pro.price + "</p>";
+	   content = content + "<p>" + pro.view + " (x" + pro.qty + ") = €" + pro.qty*pro.price + "</p>";
+	   total = total + (pro.qty*pro.price);
 	   }
+	
     }
+	content = content + "<hr><p>Order Total = €" + total + "</p>";
 $( "#cartSummary" ).html(content);
 //window.location="/index#orderSummary";
 });
@@ -419,7 +437,7 @@ $( "#cartSummary" ).html(content);
       </div><!-- /header -->
 
       <div role="main" class="ui-content">
-	  <button id="vieworders">Test</button>
+	  <button id="vieworders">View Orders</button>
 	  <div id="managerorders">
 	  <script>
 	  $( "#vieworders" ).click(function() {
@@ -508,7 +526,7 @@ $( "#registerButton" ).click(function() { //when register button is pressed
 function checkout(){
 
 var ser = '';
-
+var total = 0;
  var arrayLength = prod.length;
     for (var i = 0; i < arrayLength; i++) { // loop over the products
         
@@ -517,6 +535,7 @@ var ser = '';
 		if(pro.qty > 0) { //don't send items that haven't been selected.
         
             ser = ser + pro.view + '-' + pro.qty + '='; //flattens the array into one long string, using = as a delimiter 
+			total = total + (pro.price*pro.qty);
 			}
         
       //
@@ -525,7 +544,7 @@ var ad = "<p>" + $( "#add1" ).val() + "</p>";
     ad = ad + "<p>" + $( "#add2" ).val() + "</p>";
 	ad = ad + "<p>" + $( "#add3" ).val() + "</p>";
 
-$.post( "/backend", { type: "placeorder", ser: ser, address: ad, status: "pending"})
+$.post( "/backend", { type: "placeorder", ser: ser, address: ad, status: "Awaiting Delivery", total: total})
       .done(function( data ) {
         alert( "Data Loaded: " + data );
       });
