@@ -285,8 +285,10 @@ class Backend extends AbstractController
 			$total = 0;
 			
 			foreach($orders as $o) {
-				$counter = $counter + 1;
-				$total = $total + $o->getTotal();
+				if($o->getStatus() != "Cancelled"){ //doesn't count cancelled orders
+				    $counter = $counter + 1;
+				    $total = $total + $o->getTotal();
+				}
 			}
 			$stats = "Total orders placed: ".$counter." || Total revenue: €".$total;
 			return new Response($stats);
