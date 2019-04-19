@@ -67,16 +67,62 @@ class Backend extends AbstractController
 			
 		}
 		
+		else if($type == 'custorders') 
+		{
+		//$id = $session->get('id');
+			$customer = $session->get('placedby');
+			
+			$repo = $this->getDoctrine()->getRepository(Orders::class);
+            $custorder = $repo->findAll();
+			
+			$tab = "<h2>Order History for ".ucfirst($customer)."</h2>";
+			
+			$tab .= '<table data-role="table" id="movie-table-custom" data-mode="reflow" class="movie-list ui-responsive"><thead><tr><th data-priority="1">Order ID</th><th data-priority="1">Order Details</th><th data-priority="1">Delivering To:</th><th data-priority="1">Order Total</th><th data-priority="1">Order Status</th></tr></thead><tbody>';
+			
+			foreach($custorder as $o) {
+				if($o->getPlacedby() == $customer) {
+				    $tab .= "<tr>";
+				    $tab .= "<td>".$o->getId()."</td>";
+				    
+				    $tab .= "<td>".$o->getDetails()."</td>";
+				    $tab .= "<td>".$o->getAddress()."</td>";
+				    $tab .= "<td>€".$o->getTotal()."</td>";
+				    $tab .= "<td>".$o->getStatus()."</td>";
+				    $tab .= "</tr>";
+				}
+		    }
+			
+			$tab .= "</tbody></table>";			
+		
+					
+			return new Response($tab);
+		}
+
+		
 		
 		
 		else if($type == 'vieworders') {
 			//$id = $session->get('id');
-			$placedby = $session->get('placedby');
+			//$placedby = $session->get('placedby');
 			
 			$repository = $this->getDoctrine()->getRepository(Orders::class);
             $orders = $repository->findAll();
 			
-			$table = '<table data-role="table" id="movie-table-custom" data-mode="reflow" class="movie-list ui-responsive"><thead><tr><th data-priority="1">Order ID</th><th data-priority="1">Customer</th><th data-priority="1">Order Details</th><th data-priority="1">Delivering To:</th><th data-priority="1">Order Total</th><th data-priority="1">Order Status</th></tr></thead><tbody>';
+			$table = '<script>$("[id^=change").click(function(){
+                         console.log("Test");
+                        var oid = $(this).attr("orderid"); // find out what was clicked - $(this) refers to button that was pressed, then look for the attribute
+                //console.log(ostatus);
+	
+				$.post( "/backend", { type: "updateStatus", oid: oid}) 
+					.done(function(data) {
+				alert(data);				
+				document.getElementById("vieworders1").click(); //automatically clicks button to refresh this tab
+				
+				//window.location="/index#driver";
+				});    
+				});	</script>';
+			
+			$table .= '<table data-role="table"><thead><tr><th>Order ID</th><th>Customer</th><th>Details</th><th>Delivering To:</th><th>Total</th><th>Status</th></tr></tr></thead><tbody>';
 			
 			foreach($orders as $order) {
 				$table .= "<tr>";
@@ -86,12 +132,52 @@ class Backend extends AbstractController
 				$table .= "<td>".$order->getAddress()."</td>";
 				$table .= "<td>€".$order->getTotal()."</td>";
 				$table .= "<td>".$order->getStatus()."</td>";
+				$table .= '<td><button id="change'.$order->getId().'" orderid="'.$order->getId().'">Update</button></td>';
 				$table .= "</tr>";
 		    }
 			
 			$table .= "</tbody></table>";
+		
+					
+			return new Response($table);
+		}
+		
+		else if($type == 'managerorders') {
+			//$id = $session->get('id');
+			$placedby = $session->get('placedby');
 			
-			$table .= '<button id="change'.$order->getId().'" orderid="'.$order->getId().'">Update</button>';
+			$repository = $this->getDoctrine()->getRepository(Orders::class);
+            $orders = $repository->findAll();
+			
+			$table = '<script>$("[id^=del").click(function(){
+                         console.log("Test");
+                        var oid = $(this).attr("orderid"); // find out what was clicked - $(this) refers to button that was pressed, then look for the attribute
+               
+	
+				$.post( "/backend", { type: "cancelOrder", oid: oid}) 
+					.done(function(data) {
+				alert(data);				
+				document.getElementById("vieworders").click(); //automatically clicks button to refresh this tab
+				
+				//window.location="/index#driver";
+				});    
+				});	</script>';
+			
+			$table .= '<table data-role="table"><thead><tr><th>Order ID</th><th>Customer</th><th>Details</th><th>Delivering To:</th><th>Total</th><th>Status</th></tr></tr></thead><tbody>';
+			
+			foreach($orders as $order) {
+				$table .= "<tr>";
+				$table .= "<td>".$order->getId()."</td>";
+				$table .= "<td>".$order->getPlacedby()."</td>";
+				$table .= "<td>".$order->getDetails()."</td>";
+				$table .= "<td>".$order->getAddress()."</td>";
+				$table .= "<td>€".$order->getTotal()."</td>";
+				$table .= "<td>".$order->getStatus()."</td>";
+				$table .= '<td><button id="del'.$order->getId().'" orderid="'.$order->getId().'">Update</button></td>';
+				$table .= "</tr>";
+		    }
+			
+			$table .= "</tbody></table>";
 		
 					
 			return new Response($table);
@@ -148,17 +234,60 @@ class Backend extends AbstractController
  
 
        
-        return new Response(
-            'all ok' . $details
-        );  
+        return new Response("Order placed successfully");  
 		
 		}		
         
 		else if($type == 'updateStatus') {
-			$status = $request->request->get('ostatus', 'none');
-			return new Response($status); 
+			$oid = $request->request->get('oid', 'none'); 
+			
+			$entityManager = $this->getDoctrine()->getManager();
+			
+			$repo = $this->getDoctrine()->getRepository(Orders::class);
+            $currentid = $repo->findOneBy(['id' => $oid]);
+			
+			$testing = $currentid->getStatus();
+			
+			if($testing == "Awaiting Delivery") {
+				$currentid->setStatus("Delivered");
+			}
+			else {
+				$currentid->setStatus("Awaiting Delivery");
+			}
+			
+			$entityManager->flush();
+			
+			return new Response("Delivery updated!"); 
 		}
        
+	   else if($type == 'cancelOrder') {
+			$oid = $request->request->get('oid', 'none'); 
+			
+			$entityManager = $this->getDoctrine()->getManager();
+			
+			$repo = $this->getDoctrine()->getRepository(Orders::class);
+            $currentid = $repo->findOneBy(['id' => $oid]);
+			
+			$testing = $currentid->getStatus();
+			
+			if($testing == "Awaiting Delivery") {
+				$currentid->setStatus("Cancelled");
+			}
+			else if ($testing == "Delivered"){
+				$currentid->setStatus("Cancelled");
+			}
+			else {
+				$currentid->setStatus("Awaiting Delivery");
+			}
+			
+			$entityManager->flush();
+			
+			return new Response("Delivery updated!"); 
+		}
+		
+		else if($type == "orderstats"){
+			
+		}
     
 	}
 	

@@ -118,8 +118,9 @@ td, th {
 	  </script>
 	  <div id="driverOrders">
 	  <h1>Orders Go Here:</h1>
-	   <script>
-	   $( "#vieworders1" ).click(function() {
+	   <script> 
+
+	$( "#vieworders1" ).click(function() {
   
    
       $.post( "/backend", { type: "vieworders"})
@@ -132,6 +133,7 @@ td, th {
 
 });
 	    $( "#driverOrders" ).hide();
+		
 		
 	  </script>
 	  </div>
@@ -198,7 +200,7 @@ td, th {
         <input type="radio" name="acctype" id="acctype2" value="manager">
         <label for="acctype2">Manager</label>
         <input type="radio" name="acctype" id="acctype3" value="driver">
-        <label for="acctype3">Driver</label>
+        <label for="acctype3">Driver</label>document.getElementById("vieworders1").click();
    		</fieldset>
 		</form>
        <button class="ui-btn" id="registerButton">Submit</button>
@@ -215,12 +217,16 @@ td, th {
 
 <div role="main" class="ui-content">
 
+<button id="custorder">View Order History</button>
+<button id="viewmenu">Menu</button>
+
 
 <div id="cartlink" data-role="footer" data-position="fixed" data-theme="b">	
 <h2>You have items in your cart!<a href="#cart" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-mini">View Cart</a></h2>
 <script> $( "#cartlink" ).hide(); //hides view cart link on first page load - then update cart controls it after that </script>
 </div>
  
+<div id="menu">
 <!-- Menu -->
 <ul data-role="listview" data-inset="true" data-divider-theme="a">
     <li data-role="list-divider">Pizza</li>
@@ -236,8 +242,40 @@ td, th {
 	<li><h4>Sprite 330ml</h4><button id="addProduct8" productname="sprite">Add</button><button id="removeProduct8" productname="sprite">Remove</button><input type="text" id="spritedQty"/></li>
  
 </ul>
+</div> <!-- end menu -->
 
+<div id="customerorder">
+
+<script>
+$( "#custorder" ).click(function() {
+  $( "#menu" ).hide()
+  $( "#custorder" ).hide()
+   
+      $.post( "/backend", { type: "custorders" })
+     .done(function( data ) {
+	 
+	     $( "#customerorder" ).html(data);
+		 $( "#customerorder" ).show();
+         $( "#viewmenu" ).show()		 
 	
+	 });
+	 
+
+});
+	   $( "#customerorder" ).hide();
+		
+$( "#viewmenu" ).click(function() {
+  $( "#viewmenu" ).hide()
+  $( "#customerorder" ).hide();
+  $( "#menu" ).show()
+  $( "#custorder" ).show()
+  
+	 });
+	 
+$( "#viewmenu" ).hide()
+
+</script>
+</div>
 </div>
 
 	<!-- rightpanel2  -->
@@ -248,6 +286,9 @@ td, th {
         <div id="myCart">
 <script>
 //////////////////////////////actions on customer page/////////////////////////////////////////////////////
+
+
+
 
 /// template for a product
 
@@ -375,6 +416,7 @@ for (var i = 0; i < arrayLength; i++) {
 	   }
     }
 $( "#myCart" ).html(content);
+
 });
 
 
@@ -439,14 +481,26 @@ $( "#cartSummary" ).html(content);
 
       <div role="main" class="ui-content">
 	  <button id="vieworders">View Orders</button>
+	  <button id="orderstats">Statistics</button>
 	  <div id="managerorders">
 	  <script>
 	  $( "#vieworders" ).click(function() {
   
    
-      $.post( "/backend", { type: "vieworders"})
+      $.post( "/backend", { type: "managerorders"})
      .done(function( data ) {
 	 $( "#managerorders" ).html(data);
+	 });
+	 
+
+});
+
+$( "#orderstats" ).click(function() {
+  
+   
+      $.post( "/backend", { type: "orderstats"})
+     .done(function( data ) {
+	 alert(data);
 	 });
 	 
 
@@ -547,71 +601,13 @@ var ad = "<p>" + $( "#add1" ).val() + "</p>";
 
 $.post( "/backend", { type: "placeorder", ser: ser, address: ad, status: "Awaiting Delivery", total: total})
       .done(function( data ) {
-        alert( "Data Loaded: " + data );
+        alert( data );
+		window.location="/index#customer";
+		
       });
 }
 
-$('[id^=change').click(function(){
-    
-    var ostatus = $(this).attr('orderid'); // find out what was clicked - $(this) refers to button that was pressed, then look for the attribute
-    console.log(ostatus);
-	
-      $.post( "/backend", { type: "updateStatus", ostatus: ostatus})
-     .done(function( data ) {
-	  console.log(data);
-	  //window.location="/index#driver";
-	 });    
-});
-/*
 
-////function to update the cart.
-function updateCart(){
-       var content = "";
-      
-      if (wedges.qty >= 1) { // check to see if we should add it or not
-          content = content + "<p>Wedges x" + wedges.qty + " = €" + wedges.qty * wedges.price + "</p><br>";	
-		  od = wedges.name +" x "+wedges.qty;
-      }
-	  
-	  if (hawaiian.qty >=1) {
-	  content = content + "<p>Hawaiian x" + hawaiian.qty + " = €" + hawaiian.qty * hawaiian.price +"</p><br>";	
-      }
-	 
-      // display the content variable in the myCart div.
-       $( "#myCart" ).html(content);
-	
-    
-      if(counter <= 0){    
-          $( "#myCart" ).hide();
-		  $( "#cartlink" ).hide();
-		  
-		 
-      } else {
-       $( "#myCart" ).show();     
-		$( "#cartlink" ).show();	   
-		
-      }
-	  
-
-}
-
-*/
 
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </html>
