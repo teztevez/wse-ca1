@@ -77,7 +77,7 @@ class Backend extends AbstractController
 			
 			$tab = "<h2>Order History for ".ucfirst($customer)."</h2>";
 			
-			$tab .= '<table data-role="table" id="movie-table-custom" data-mode="reflow" class="movie-list ui-responsive"><thead><tr><th data-priority="1">Order ID</th><th data-priority="1">Order Details</th><th data-priority="1">Delivering To:</th><th data-priority="1">Order Total</th><th data-priority="1">Order Status</th></tr></thead><tbody>';
+			$tab .= '<table><thead><tr><th data-priority="1">Order ID</th><th>Order Details</th><th>Delivering To:</th><th>Order Total</th><th>Order Status</th></tr></thead><tbody>';
 			
 			foreach($custorder as $o) {
 				if($o->getPlacedby() == $customer) {
@@ -96,44 +96,40 @@ class Backend extends AbstractController
 		
 					
 			return new Response($tab);
-		}
-
+		}		
 		
-		
-		
-		else if($type == 'vieworders') {
-			//$id = $session->get('id');
-			//$placedby = $session->get('placedby');
+		else if($type == 'vieworders') { //driver orders (leaves out cancelled orders)
 			
 			$repository = $this->getDoctrine()->getRepository(Orders::class);
             $orders = $repository->findAll();
 			
+			//inserted javascript here because wasn't functioning otherwise
 			$table = '<script>$("[id^=change").click(function(){
-                         console.log("Test");
-                        var oid = $(this).attr("orderid"); // find out what was clicked - $(this) refers to button that was pressed, then look for the attribute
-                //console.log(ostatus);
+                      console.log("Test");
+                      var oid = $(this).attr("orderid");           
 	
-				$.post( "/backend", { type: "updateStatus", oid: oid}) 
-					.done(function(data) {
-				alert(data);				
-				document.getElementById("vieworders1").click(); //automatically clicks button to refresh this tab
-				
-				//window.location="/index#driver";
-				});    
-				});	</script>';
+				      $.post( "/backend", { type: "updateStatus", oid: oid}) 
+					  .done(function(data) {
+				      alert(data);				
+				      document.getElementById("vieworders1").click(); //automatically clicks button to refresh this tab				
+				      });    
+				      });	
+					 </script>';
 			
 			$table .= '<table data-role="table"><thead><tr><th>Order ID</th><th>Customer</th><th>Details</th><th>Delivering To:</th><th>Total</th><th>Status</th></tr></tr></thead><tbody>';
 			
 			foreach($orders as $order) {
-				$table .= "<tr>";
-				$table .= "<td>".$order->getId()."</td>";
-				$table .= "<td>".$order->getPlacedby()."</td>";
-				$table .= "<td>".$order->getDetails()."</td>";
-				$table .= "<td>".$order->getAddress()."</td>";
-				$table .= "<td>€".$order->getTotal()."</td>";
-				$table .= "<td>".$order->getStatus()."</td>";
-				$table .= '<td><button id="change'.$order->getId().'" orderid="'.$order->getId().'">Update</button></td>';
-				$table .= "</tr>";
+				if($order->getStatus() != "Cancelled") {
+				    $table .= "<tr>";
+				    $table .= "<td>".$order->getId()."</td>";
+				    $table .= "<td>".$order->getPlacedby()."</td>";
+				    $table .= "<td>".$order->getDetails()."</td>";
+				    $table .= "<td>".$order->getAddress()."</td>";
+				    $table .= "<td>€".$order->getTotal()."</td>";
+				    $table .= "<td>".$order->getStatus()."</td>";
+				    $table .= '<td><button id="change'.$order->getId().'" orderid="'.$order->getId().'">Update</button></td>';
+				    $table .= "</tr>";
+				}
 		    }
 			
 			$table .= "</tbody></table>";
@@ -143,25 +139,23 @@ class Backend extends AbstractController
 		}
 		
 		else if($type == 'managerorders') {
-			//$id = $session->get('id');
+			
 			$placedby = $session->get('placedby');
 			
 			$repository = $this->getDoctrine()->getRepository(Orders::class);
             $orders = $repository->findAll();
 			
 			$table = '<script>$("[id^=del").click(function(){
-                         console.log("Test");
-                        var oid = $(this).attr("orderid"); // find out what was clicked - $(this) refers to button that was pressed, then look for the attribute
-               
+                      console.log("Test");
+                      var oid = $(this).attr("orderid");               
 	
-				$.post( "/backend", { type: "cancelOrder", oid: oid}) 
-					.done(function(data) {
-				alert(data);				
-				document.getElementById("vieworders").click(); //automatically clicks button to refresh this tab
-				
-				//window.location="/index#driver";
-				});    
-				});	</script>';
+				       $.post( "/backend", { type: "cancelOrder", oid: oid}) 
+					 .done(function(data) {
+				     alert(data);				
+				     document.getElementById("vieworders").click(); //automatically clicks button to refresh this tab			
+				    });    
+			 	    });	
+					</script>';
 			
 			$table .= '<table data-role="table"><thead><tr><th>Order ID</th><th>Customer</th><th>Details</th><th>Delivering To:</th><th>Total</th><th>Status</th></tr></tr></thead><tbody>';
 			
@@ -202,12 +196,9 @@ class Backend extends AbstractController
 		
 		$details = '';
         foreach($data as $record) {  
-			$item = explode('-', $record);
-			
+			$item = explode('-', $record);	
             
-                $details .= "<p>".$item[0] . " x " . $item[1] . "</p>";
-			
-            
+                $details .= "<p>".$item[0] . " x " . $item[1] . "</p>";       
             
         }
     
@@ -285,11 +276,21 @@ class Backend extends AbstractController
 			return new Response("Delivery updated!"); 
 		}
 		
-		else if($type == "orderstats"){
+		else if($type == "orderstats") {
 			
-		}
-    
-	}
-	
+			$repository = $this->getDoctrine()->getRepository(Orders::class);
+            $orders = $repository->findAll();
+			
+			$counter = 0;
+			$total = 0;
+			
+			foreach($orders as $o) {
+				$counter = $counter + 1;
+				$total = $total + $o->getTotal();
+			}
+			$stats = "Total orders placed: ".$counter." || Total revenue: €".$total;
+			return new Response($stats);
+		}    
+	}	
 }
 ?>

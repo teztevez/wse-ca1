@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html>
 
@@ -8,24 +6,22 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Pippa's Pizza</title>
 
-<style>
-table {
-  display: table;
-  border-collapse: separate;
-  border-spacing: 50px 0;
-  margin: 2em;
-}
+    <style>
+        table {
+        display: table;
+        border-collapse: separate;
+        border-spacing: 50px 0;
+        margin: 2em;
+        }
 
-td, th {
-  padding: 10px 0;
-  
-}
-</style>
-<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+        td, th {
+        padding: 10px 0;  
+        }
+	</style>
 
-
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 </head>
 
 <body>
@@ -41,24 +37,17 @@ td, th {
 		<h2>Welcome!</h2>
 
 		<br>
-        Welcome to the application, login or register.
-
-		<h3>Show internal pages:</h3>
+        <h3>Welcome to the Pippa's Pizza - please login or register.</h3>
+		
 		<p><a href="#register" class="ui-btn ui-shadow ui-corner-all">Register</a></p>
 		<p><a href="#login" class="ui-btn ui-shadow ui-corner-all">Login</a></p>
 
 	</div><!-- /content -->
-
-	<div data-role="footer" data-theme="a">
-		<h4>Page Footer</h4>
-	</div><!-- /footer -->
 </div><!-- /page one -->
 
-<!-- Start of #popup -->
 <div data-role="page" id="success">
-
 	<div data-role="header" data-theme="b">
-		<h1>Dialog</h1>
+		<h1>Success!</h1>
 	</div><!-- /header -->
 
 	<div role="main" class="ui-content">
@@ -66,131 +55,106 @@ td, th {
 		<p>Please log in to enjoy our tasty delights!</p>
 		<p><a href="#login" data-rel="login" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-icon-back ui-btn-icon-left">Login</a></p>
 	</div><!-- /content -->
-
-	<div data-role="footer">
-		<h4>Page Footer</h4>
-	</div><!-- /footer -->
-</div><!-- /page popup -->
-
-
+</div>
 
 <div data-role="page" id="login" data-theme="a">
     <div data-role="header">
 		<h1>Login page</h1>
 	</div><!-- /header -->
 
-     <div role="main" class="ui-content">
-		<h2>Login</h2>
-	   Username <input type="text" name="login_username" id="login_username" value="">
-       Password <input type="password" name="login_pass" id="login_pass" value="">
+    <div role="main" class="ui-content">
+	    <h2>Login</h2>
+	    Username <input type="text" name="login_username" id="login_username" value="">
+        Password <input type="password" name="login_pass" id="login_pass" value="">
         <button class="ui-btn" id="loginButton">Submit</button>        
 	</div><!-- /content -->
 </div>
 
-
 <div data-role="page" id="driver" data-theme="a">
-
        <div data-role="header">
 		<h1>Driver</h1>
       </div><!-- /header -->
 
       <div role="main" class="ui-content">
-	  <button onclick="viewWeather()">View Weather Information</button>
-	  <button id="vieworders1">View Orders</button>
+	      <button onclick="viewWeather()">View Weather Information</button>
+	      <button id="vieworders1">View Orders</button>	  
+<script>	  
+function viewWeather() { //shows weather information and hides the orders from driver
+	$( "#weather" ).show();
+	$( "#driverOrders" ).hide();
+	}
 	  
+function viewDriverOrders() { //shows the order table and hides the weather information
+	$( "#driverOrders" ).show();
+    $( "#weather" ).hide();
+	 }	  
+</script>
 	  
-	  
-	  <script>
-	
-	  
-	  function viewWeather() {
-	      $( "#weather" ).show();
-	      $( "#driverOrders" ).hide();
-	  }
-	  
-	  function viewDriverOrders() {
-		   $( "#driverOrders" ).show();
-		   $( "#weather" ).hide();
-	  }
-	  
-	  
-	  
-	  </script>
 	  <div id="driverOrders">
-	  <h1>Orders Go Here:</h1>
-	   <script> 
-
-	$( "#vieworders1" ).click(function() {
-  
-   
-      $.post( "/backend", { type: "vieworders"})
-     .done(function( data ) {
-	 $( "#driverOrders" ).html(data);
-	 $( "#weather" ).hide();
-	 $( "#driverOrders" ).show();
-	 });
-	 
-
+	      <h1>Orders Go Here:</h1>
+<script> 
+$( "#vieworders1" ).click(function() {   
+    $.post( "/backend", { type: "vieworders"})
+    .done(function( data ) {
+    $( "#driverOrders" ).html(data);
+	$( "#weather" ).hide();
+	$( "#driverOrders" ).show();
+	});
 });
-	    $( "#driverOrders" ).hide();
-		
-		
-	  </script>
+
+$( "#driverOrders" ).hide();		
+</script>
+
 	  </div>
 	  <div id="weather">   
-	    <h1>Today's Weather:</h1>
-		<div id="weatherTable">
-    <script>
-        $.getJSON( "http://api.openweathermap.org/data/2.5/weather?q=Dublin&units=metric&APPID=a61ee660dd5693d29ccc68f5397830fc", function( data ) { //appended metric units for output
+	      <h1>Today's Weather:</h1>
+		  <div id="weatherTable">
+<script>
+$.getJSON( "http://api.openweathermap.org/data/2.5/weather?q=Dublin&units=metric&APPID=a61ee660dd5693d29ccc68f5397830fc", function( data ) { //appended metric units for output
   
-         var main = data.main; //humidity(%), pressure(hPa), temp(C), temp_max, temp_min
-	     var loc = data.name;	
-	     var displayweather = "";
+var main = data.main; //humidity(%), pressure(hPa), temp(C), temp_max, temp_min
+var loc = data.name;	
+var displayweather = "";
 	 
-	     displayweather = displayweather + '<div class="ui-grid-a">';
-         displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:35px">Location:</div></div>';
-         displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:35px">'+loc+'</div></div>';
+displayweather = displayweather + '<div class="ui-grid-a">';
+displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:35px">Location:</div></div>';
+displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:35px">'+loc+'</div></div>';
 
-         displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:35px">Current Temperature:</div></div>';
-         displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:35px">'+main.temp+'&#8451</div></div>';
+displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:35px">Current Temperature:</div></div>';
+displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:35px">'+main.temp+'&#8451</div></div>';
 
-	     displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:35px">Min. Temperature:</div></div>';
-         displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:35px">'+main.temp_min+'&#8451</div></div>';
+displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:35px">Min. Temperature:</div></div>';
+displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:35px">'+main.temp_min+'&#8451</div></div>';
 
-         displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:35px">Max. Temperature:</div></div>';
-         displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:35px">'+main.temp_max+'&#8451</div></div>';
+displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:35px">Max. Temperature:</div></div>';
+displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:35px">'+main.temp_max+'&#8451</div></div>';
 
-	     displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:35px">Humidity:</div></div>';
-         displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:35px">'+main.humidity+'%</div></div>';
+displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:35px">Humidity:</div></div>';
+displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:35px">'+main.humidity+'%</div></div>';
 
-         displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:35px">Pressure:</div></div>';
-         displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:35px">'+main.pressure+'(hPa)</div></div></div>';
+displayweather = displayweather + '<div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:35px">Pressure:</div></div>';
+displayweather = displayweather + '<div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:35px">'+main.pressure+'(hPa)</div></div></div>';
 
-
-	 
-	    $( "#weatherTable" ).html(displayweather);   
-		console.log(data);
-      });
+$( "#weatherTable" ).html(displayweather);   
+});
 	  
-	  
-	  $( "#weather" ).hide();
-	  </script>
-    </div> <!-- end weather div -->
+$( "#weather" ).hide();
+</script>
+        </div> <!-- end weather div -->
 	</div>
 	</div><!-- /content -->
 </div>
 
 <div data-role="page" id="register" data-theme="a">
+    <div data-role="header">
+        <h1>Register</h1>
+    </div><!-- /header -->
 
-       <div data-role="header">
-		<h1>Register</h1>
-      </div><!-- /header -->
-
-      <div role="main" class="ui-content">
+    <div role="main" class="ui-content">
 		<h2>Register</h2>
         
-       Username <input type="text" name="username" id="username" value="">
-       Password <input type="password" name="pass" id="pass" value="">
+        Username <input type="text" name="username" id="username" value="">
+        Password <input type="password" name="pass" id="pass" value="">
         <!--AccType <input type="text" name="acctype" id="acctype" value=""> -->
 	    <form>
         <fieldset data-role="controlgroup" data-type="horizontal">
@@ -200,111 +164,89 @@ td, th {
         <input type="radio" name="acctype" id="acctype2" value="manager">
         <label for="acctype2">Manager</label>
         <input type="radio" name="acctype" id="acctype3" value="driver">
-        <label for="acctype3">Driver</label>document.getElementById("vieworders1").click();
+        <label for="acctype3">Driver</label>
    		</fieldset>
 		</form>
        <button class="ui-btn" id="registerButton">Submit</button>
-
-
 	</div><!-- /content -->
 </div>
 
 <div data-role="page" id="customer" data-theme="a">
-
-       <div data-role="header">
+    <div data-role="header">
 		<h1>Customer</h1>
-      </div><!-- /header -->
+    </div><!-- /header -->
 
-<div role="main" class="ui-content">
+    <div role="main" class="ui-content">
+        <button id="custorder">View Order History</button>
+        <button id="viewmenu">Menu</button>
 
-<button id="custorder">View Order History</button>
-<button id="viewmenu">Menu</button>
-
-
-<div id="cartlink" data-role="footer" data-position="fixed" data-theme="b">	
-<h2>You have items in your cart!<a href="#cart" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-mini">View Cart</a></h2>
-<script> $( "#cartlink" ).hide(); //hides view cart link on first page load - then update cart controls it after that </script>
-</div>
+        <div id="cartlink" data-role="footer" data-position="fixed" data-theme="b">	
+		<h2>You have items in your cart!<a href="#cart" class="ui-btn ui-shadow ui-corner-all ui-btn-inline ui-mini">View Cart</a></h2>
+<script>
+ $( "#cartlink" ).hide(); //hides view cart link on first page load - then update cart controls it after that 
+ </script>
+		</div>
  
-<div id="menu">
-<!-- Menu -->
-<ul data-role="listview" data-inset="true" data-divider-theme="a">
-    <li data-role="list-divider">Pizza</li>
-    <li><h4>Hawaiian</h4><button id="addProduct1" productname="hawaiian">Add</button><button id="removeProduct1" productname="hawaiian">Remove</button><input type="text" id="hawaiianQty"/></li>
-    <li><h4>New Yorker</h4><button id="addProduct2" productname="newyork">Add</button><button id="removeProduct2" productname="newyork">Remove</button><input type="text" id="newyorkQty"/></li>
-    <li><h4>House Special</h4><button id="addProduct3" productname="house">Add</button><button id="removeProduct3" productname="house">Remove</button><input type="text" id="houseQty"/></li>
-    <li data-role="list-divider">Sides</li>
-    <li><h4>Potato Wedges</h4><button id="addProduct4" productname="wedges">Add</button><button id="removeProduct4" productname="wedges">Remove</button><input type="text" id="wedgesQty"/></li>
-    <li><h4>Garlic Bread</h4><button id="addProduct5" productname="gbread">Add</button><button id="removeProduct5" productname="gbread">Remove</button><input type="text" id="gbreadQty"/></li>
-	<li data-role="list-divider">Drinks</li>
-	<li><h4>Cocal Cola 330ml</h4><button id="addProduct6" productname="cola">Add</button><button id="removeProduct6" productname="cola">Remove</button><input type="text" id="colaQty"/></li>
-	<li><h4>Fanta 330ml</h4><button id="addProduct7" productname="fanta">Add</button><button id="removeProduct7" productname="fanta">Remove</button><input type="text" id="fantaQty"/></li>
-	<li><h4>Sprite 330ml</h4><button id="addProduct8" productname="sprite">Add</button><button id="removeProduct8" productname="sprite">Remove</button><input type="text" id="spritedQty"/></li>
- 
-</ul>
-</div> <!-- end menu -->
+		<div id="menu">
+		<!-- Menu -->
+			<ul data-role="listview" data-inset="true" data-divider-theme="a">
+			<li data-role="list-divider">Pizza</li>
+    		<li><h4>Hawaiian</h4><button id="addProduct1" productname="hawaiian">Add</button><button id="removeProduct1" productname="hawaiian">Remove</button><input type="text" id="hawaiianQty"/></li>
+			<li><h4>New Yorker</h4><button id="addProduct2" productname="newyork">Add</button><button id="removeProduct2" productname="newyork">Remove</button><input type="text" id="newyorkQty"/></li>
+			<li><h4>House Special</h4><button id="addProduct3" productname="house">Add</button><button id="removeProduct3" productname="house">Remove</button><input type="text" id="houseQty"/></li>
+    		<li data-role="list-divider">Sides</li>
+    		<li><h4>Potato Wedges</h4><button id="addProduct4" productname="wedges">Add</button><button id="removeProduct4" productname="wedges">Remove</button><input type="text" id="wedgesQty"/></li>
+			<li><h4>Garlic Bread</h4><button id="addProduct5" productname="gbread">Add</button><button id="removeProduct5" productname="gbread">Remove</button><input type="text" id="gbreadQty"/></li>
+			<li data-role="list-divider">Drinks</li>
+			<li><h4>Cocal Cola 330ml</h4><button id="addProduct6" productname="cola">Add</button><button id="removeProduct6" productname="cola">Remove</button><input type="text" id="colaQty"/></li>
+			<li><h4>Fanta 330ml</h4><button id="addProduct7" productname="fanta">Add</button><button id="removeProduct7" productname="fanta">Remove</button><input type="text" id="fantaQty"/></li>
+			<li><h4>Sprite 330ml</h4><button id="addProduct8" productname="sprite">Add</button><button id="removeProduct8" productname="sprite">Remove</button><input type="text" id="spriteQty"/></li>
+			</ul>
+		</div> <!-- end menu -->
 
-<div id="customerorder">
-
+		<div id="customerorder">
 <script>
 $( "#custorder" ).click(function() {
-  $( "#menu" ).hide()
-  $( "#custorder" ).hide()
+    $( "#menu" ).hide()
+    $( "#custorder" ).hide()
    
-      $.post( "/backend", { type: "custorders" })
-     .done(function( data ) {
-	 
-	     $( "#customerorder" ).html(data);
-		 $( "#customerorder" ).show();
-         $( "#viewmenu" ).show()		 
-	
-	 });
-	 
-
+    $.post( "/backend", { type: "custorders" })
+    .done(function( data ) {	 
+	    $( "#customerorder" ).html(data);
+		$( "#customerorder" ).show();
+        $( "#viewmenu" ).show();	
+	});
 });
-	   $( "#customerorder" ).hide();
+
+$( "#customerorder" ).hide();
 		
 $( "#viewmenu" ).click(function() {
-  $( "#viewmenu" ).hide()
-  $( "#customerorder" ).hide();
-  $( "#menu" ).show()
-  $( "#custorder" ).show()
-  
-	 });
+    $( "#viewmenu" ).hide();
+    $( "#customerorder" ).hide();
+    $( "#menu" ).show();
+    $( "#custorder" ).show();  
+	});
 	 
 $( "#viewmenu" ).hide()
-
 </script>
-</div>
-</div>
+		</div>
+	</div>
 
 	<!-- rightpanel2  -->
 	<div data-role="panel" id="cart" data-position="right" data-display="push" data-theme="b">
-	<h2>Your cart:</h2>
-
-	
-        <div id="myCart">
+	   <h2>Your cart:</h2>	
+       <div id="myCart">
 <script>
-//////////////////////////////actions on customer page/////////////////////////////////////////////////////
-
-
-
-
 /// template for a product
 
 class product {
-  constructor(name, price, qty, view) { //view used for display purposes
+    constructor(name, price, qty, view) { //view used for display purposes
     this.name = name
     this.price = price;
     this.qty = qty;
 	this.view = view;
-  }
+    }
 }
-
-
-
-
-
 // define our products
 //Pizza
 hawaiian = new product("hawaiian", 5, 0, "Hawaiian");
@@ -320,7 +262,6 @@ cola = new product("cola", 1, 0, "Coca Cola 330ml");
 fanta = new product("fanta", 1, 0, "Fanta 330ml");
 sprite = new product("sprite", 1, 0, "Sprite 330ml");
 
-
 var prod = []; //array for products
 
 prod.push(hawaiian);
@@ -332,133 +273,105 @@ prod.push(cola);
 prod.push(fanta);
 prod.push(sprite);
 
-
-var counter = 0; //may not be needed now
-
-
+var counter = 0; //used for determining if there's items in cart for display purposes
 
 $('[id^=addProduct').click(function(){
     
-    var p = $(this).attr('productname'); // find out what was clicked - $(this) refers to button that was pressed, then look for the attribute
-    
+    var p = $(this).attr('productname'); // find out what was clicked - $(this) refers to button that was pressed, then look for the attribute    
     var arrayLength = prod.length;
-    for (var i = 0; i < arrayLength; i++) { // loop over the products
-        
+	
+    for (var i = 0; i < arrayLength; i++) { // loop over the products        
         var pro = prod[i] // get one product at a time
-        //console.log(pro.name);
-        
-        if(p == pro.name) { //if p matches the current item in the array, increase the quantity by 1
-        
-            //console.log(pro.qty);
+               
+        if(p == pro.name) { //if p matches the current item in the array, increase the quantity by 1            
             
             pro.qty = pro.qty + 1;
 			counter++;
             
-              $( "#"+pro.name+"Qty" ).val(pro.qty);
+            $( "#"+pro.name+"Qty" ).val(pro.qty);
 			 
         }
 		if(counter > 0) {
-		$( "#cartlink" ).show();
+		    $( "#cartlink" ).show();
 		}
 		else{
 			$( "#cartlink" ).hide();
-		}
-        //Do something      
-		
-		
-    }
-
-
-    
+		}		
+    }    
 });
-
 
 $('[id^=removeProduct').click(function(){
    
-   var p = $(this).attr('productname'); // find out what was clicked - $(this) refers to button that was pressed, then look for the attribute
-   
+    var p = $(this).attr('productname'); // find out what was clicked - $(this) refers to button that was pressed, then look for the attribute   
     var arrayLength = prod.length;
-    for (var i = 0; i < arrayLength; i++) { // loop over the products
-        
+	
+    for (var i = 0; i < arrayLength; i++) { // loop over the products        
         var pro = prod[i]; // get one product at a time
-        //console.log(pro.name);
-        
+                
         if(p == pro.name) { //if p matches the current item in the array, increase the quantity by 1
-        
-            //console.log(pro.qty);
             
             pro.qty = pro.qty - 1;
             counter--;
-              $( "#"+pro.name+"Qty" ).val(pro.qty);
-
+			
+            $( "#"+pro.name+"Qty" ).val(pro.qty);
         }
 		
-		 if(counter > 0) {
-		$( "#cartlink" ).show();
+		if(counter > 0) {
+		    $( "#cartlink" ).show();
 		}
 		else{
-		$( "#cartlink" ).hide();
+		    $( "#cartlink" ).hide();
 		}
-	}
-       
-        
+	}        
 });
 
 $( "#cart" ).click(function(){
-var content = "";
-var arrayLength = prod.length;
-for (var i = 0; i < arrayLength; i++) {
+    var content = "";
+    var arrayLength = prod.length;
     
-	var pro = prod[i];
+	for (var i = 0; i < arrayLength; i++) {
+    
+	    var pro = prod[i];
 	
-	if (pro.qty > 0) {
-	   content = content + "<p>" + pro.view + " (x" + pro.qty + ") - €" + pro.qty*pro.price + "</p>";
-	   }
+	    if (pro.qty > 0) {
+	    content = content + "<p>" + pro.view + " (x" + pro.qty + ") - €" + pro.qty*pro.price + "</p>";
+	    }
     }
-$( "#myCart" ).html(content);
 
+	$( "#myCart" ).html(content);
 });
-
-
-
-
 </script>
- </div>
+      </div><!-- end myCart -->
 		
         <a href="#demo-links" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-btn-a ui-icon-delete ui-btn-icon-left ui-btn-inline">Close</a>
 		<button id="summary"><a href="/index#orderSummary">Proceed to Checkout</a></button>
-
-	</div><!-- /rightpanel2 -->
- 
+	</div><!-- /rightpanel2 --> 
 	</div><!-- /content -->
 </div>
 
 <div data-role="page" id="orderSummary">
-
 	<div data-role="header" data-theme="a">
 		<h1>Place Order</h1>
 	</div><!-- /header -->
 	<h2>Order Summary:</h2>
 	<div id="cartSummary">
-	<script>
+<script>
 $( "#summary" ).click(function(){
-var content = "";
-var total = 0;
-var arrayLength = prod.length;
-for (var i = 0; i < arrayLength; i++) {
+    var content = "";
+    var total = 0;
+    var arrayLength = prod.length;
     
+	for (var i = 0; i < arrayLength; i++) {    
 	
-	var pro = prod[i];
+	    var pro = prod[i];
 	
-	if (pro.qty > 0) {
-	   content = content + "<p>" + pro.view + " (x" + pro.qty + ") = €" + pro.qty*pro.price + "</p>";
-	   total = total + (pro.qty*pro.price);
-	   }
-	
+	    if (pro.qty > 0) {
+	        content = content + "<p>" + pro.view + " (x" + pro.qty + ") = €" + pro.qty*pro.price + "</p>";
+	        total = total + (pro.qty*pro.price);
+	    }	
     }
 	content = content + "<hr><p>Order Total = €" + total + "</p>";
-$( "#cartSummary" ).html(content);
-//window.location="/index#orderSummary";
+    $( "#cartSummary" ).html(content);
 });
 </script>
     </div>	
@@ -474,66 +387,41 @@ $( "#cartSummary" ).html(content);
 
 
 <div data-role="page" id="manager" data-theme="a">
-
        <div data-role="header">
-		<h1>Manager</h1>
-      </div><!-- /header -->
+		   <h1>Manager</h1>
+       </div><!-- /header -->
 
       <div role="main" class="ui-content">
-	  <button id="vieworders">View Orders</button>
-	  <button id="orderstats">Statistics</button>
+	      <button id="vieworders">View Orders</button>
+	      <button id="orderstats">Statistics</button>
 	  <div id="managerorders">
-	  <script>
-	  $( "#vieworders" ).click(function() {
-  
-   
-      $.post( "/backend", { type: "managerorders"})
-     .done(function( data ) {
-	 $( "#managerorders" ).html(data);
-	 });
-	 
-
+<script>
+$( "#vieworders" ).click(function() {   
+    $.post( "/backend", { type: "managerorders"})
+    .done(function( data ) {
+	    $( "#managerorders" ).html(data);
+	});
 });
 
-$( "#orderstats" ).click(function() {
-  
-   
-      $.post( "/backend", { type: "orderstats"})
-     .done(function( data ) {
-	 alert(data);
-	 });
-	 
-
+$( "#orderstats" ).click(function() {   
+    $.post( "/backend", { type: "orderstats"})
+    .done(function( data ) {
+	    alert(data);
+	});
 });
-	  </script>
+</script>
 	  </div>
-  
- 
-
-
 	</div><!-- /content -->
 </div>
-</body>
-
 <script>
-
 //////////////////////actions for clicking login button ////////////////////////////////
 $( "#loginButton" ).click(function() {
-  
-      var un = $( "#login_username" ).val();
-      console.log(un);
+    var un = $( "#login_username" ).val();    
       
-      var pw = $( "#login_pass" ).val();
-      console.log(pw);
+    var pw = $( "#login_pass" ).val();      
       
-
-      
-      
-      $.post( "/backend", { type: "login", username:un, password:pw})
-     .done(function( data ) {
-        //alert( "Data Loaded: " + data );
-        
-        
+    $.post( "/backend", { type: "login", username:un, password:pw})
+    .done(function( data ) {        
         if(data == 'customer'){
             window.location="/index#customer";
         }
@@ -544,70 +432,52 @@ $( "#loginButton" ).click(function() {
             window.location="/index#manager";
         }   		
         
-       });
-  
-  
+    });  
 });
-
 
 ////////////////////////actions for clicking register button ///////////////////////////////////////////
 $( "#registerButton" ).click(function() { //when register button is pressed
-  
-      var un = $( "#username" ).val(); //grab value from username field and assign it to variable un
-      console.log(un);
+    var un = $( "#username" ).val(); //grab value from username field and assign it to variable un
       
-      var pw = $( "#pass" ).val();
-      console.log(pw);
+    var pw = $( "#pass" ).val();
+	
+    var at = $( "input[name=acctype]:checked" ).val(); //grabs value of checked radio button
       
-      var at = $( "input[name=acctype]:checked" ).val(); //grabs value of checked radio button
-      console.log(at);
-      
-      
-      
-      $.post( "/backend", { type: "register", username:un, password:pw, acctype:at})
-     .done(function( data ) {
-        alert( "Data Loaded: " + data );
-		
-       });
+	$.post( "/backend", { type: "register", username:un, password:pw, acctype:at})
+    .done(function( data ) {
+        alert( "Data Loaded: " + data );		
+    });
   
-	 window.location="/index#success";
-  
-
-  
-  
+	window.location="/index#success"; 
 });
 
-
 function checkout(){
-
-var ser = '';
-var total = 0;
- var arrayLength = prod.length;
-    for (var i = 0; i < arrayLength; i++) { // loop over the products
+    var ser = '';
+    var total = 0;
+    var arrayLength = prod.length;
+    
+	for (var i = 0; i < arrayLength; i++) { // loop over the products
         
         var pro = prod[i] // get one product at a time
         
-		if(pro.qty > 0) { //don't send items that haven't been selected.
-        
+		if(pro.qty > 0) { //don't send items that haven't been selected.        
             ser = ser + pro.view + '-' + pro.qty + '='; //flattens the array into one long string, using = as a delimiter 
 			total = total + (pro.price*pro.qty);
-			}
-        
-      //
-     }
+			}      
+    }
+	
 var ad = "<p>" + $( "#add1" ).val() + "</p>";
     ad = ad + "<p>" + $( "#add2" ).val() + "</p>";
 	ad = ad + "<p>" + $( "#add3" ).val() + "</p>";
 
 $.post( "/backend", { type: "placeorder", ser: ser, address: ad, status: "Awaiting Delivery", total: total})
-      .done(function( data ) {
-        alert( data );
-		window.location="/index#customer";
-		
-      });
+    .done(function( data ) {
+    alert( data );
+
+    window.location="/index#customer";
+    location.reload();		
+    });
 }
-
-
-
 </script>
+</body>
 </html>
